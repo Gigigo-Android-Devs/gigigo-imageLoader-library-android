@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.gigigo.ui.imageloader.ImageLoader;
+import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader_glide.GlideImageLoaderImp;
 import com.gigigo.ui.imageloader_picasso.PicassoCircleTransformation;
 import com.gigigo.ui.imageloader_picasso.PicassoImageLoaderImp;
@@ -36,34 +37,48 @@ public class MainActivity extends AppCompatActivity {
     buttonGlide.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
-        imageLoader.load(getRandomImageUrl(), imageView);
+        String url = DataGenerator.generateRandomImageUrl();
+        Snackbar.make(buttonGlide, "Glide ImageLoader! "+url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
+          @Override public void onFinish(boolean isSuccess) {
+
+            if(isSuccess) {
+              Snackbar.make(buttonGlide, "image loaded!", Snackbar.LENGTH_SHORT).show();
+            }
+            else {
+              Snackbar.make(buttonGlide, "image error :(", Snackbar.LENGTH_SHORT).show();
+            }
+          }
+        });
       }
     });
 
     buttonPicasso.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setPicassoImageLoader();
-        imageLoader.load(getRandomImageUrl(), imageView);
+        String url = DataGenerator.generateRandomImageUrl();
+        Snackbar.make(buttonPicasso, "Picasso ImageLoader! "+url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
+          @Override public void onFinish(boolean isSuccess) {
+
+            if(isSuccess) {
+              Snackbar.make(buttonGlide, "image loaded!", Snackbar.LENGTH_SHORT).show();
+            }
+            else {
+              Snackbar.make(buttonGlide, "image error :(", Snackbar.LENGTH_SHORT).show();
+            }
+          }
+        });
       }
     });
-  }
-
-  private String getRandomImageUrl() {
-    String url = "";
-
-    return url;
   }
 
   private void setGlideImageLoader() {
     RequestManager requestManager = Glide.with(this);
     imageLoader = new GlideImageLoaderImp(requestManager);
-
-    Snackbar.make(buttonGlide, "Glide ImageLoader!", Snackbar.LENGTH_SHORT).show();
   }
 
   private void setPicassoImageLoader() {
-    imageLoader = new PicassoImageLoaderImp(this, new PicassoCircleTransformation(1,1,R.color.colorPrimary));
-
-    Snackbar.make(buttonPicasso, "Picasso ImageLoader!", Snackbar.LENGTH_SHORT).show();
+    imageLoader = new PicassoImageLoaderImp(this, new PicassoCircleTransformation(20,4,R.color.colorPrimary));
   }
 }

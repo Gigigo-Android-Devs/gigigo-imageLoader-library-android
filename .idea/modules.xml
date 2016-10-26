@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gigigo-imageloader-library-android.iml" filepath="$PROJECT_DIR$/gigigo-imageloader-library-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageloader/imageloader.iml" filepath="$PROJECT_DIR$/imageloader/imageloader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageloader-glide/imageloader-glide.iml" filepath="$PROJECT_DIR$/imageloader-glide/imageloader-glide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageloader-picasso/imageloader-picasso.iml" filepath="$PROJECT_DIR$/imageloader-picasso/imageloader-picasso.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageloader_glide/imageloader_glide.iml" filepath="$PROJECT_DIR$/imageloader_glide/imageloader_glide.iml" />
+    </modules>
+  </component>
+</project>

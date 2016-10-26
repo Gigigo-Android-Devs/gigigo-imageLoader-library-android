@@ -1,2 +1,2 @@
-include ':app', ':imageloader', ':imageloader_glide', ':imageloader-glide', ':imageloader-picasso',
+include ':app', ':imageloader', ':imageloader-glide', ':imageloader-picasso',
     ':imageloader'

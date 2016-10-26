@@ -38,15 +38,16 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         setGlideImageLoader();
         String url = DataGenerator.generateRandomImageUrl();
-        Snackbar.make(buttonGlide, "Glide ImageLoader! "+url, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(buttonGlide, url, Snackbar.LENGTH_SHORT).show();
+        //TODO: test it with circleimage
         imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
           @Override public void onFinish(boolean isSuccess) {
 
             if(isSuccess) {
-              Snackbar.make(buttonGlide, "image loaded!", Snackbar.LENGTH_SHORT).show();
+              Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
             }
             else {
-              Snackbar.make(buttonGlide, "image error :(", Snackbar.LENGTH_SHORT).show();
+              Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
             }
           }
         });
@@ -57,15 +58,16 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         setPicassoImageLoader();
         String url = DataGenerator.generateRandomImageUrl();
-        Snackbar.make(buttonPicasso, "Picasso ImageLoader! "+url, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(buttonPicasso, url, Snackbar.LENGTH_SHORT).show();
+        //TODO: test it with circleimage
         imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
           @Override public void onFinish(boolean isSuccess) {
 
             if(isSuccess) {
-              Snackbar.make(buttonGlide, "image loaded!", Snackbar.LENGTH_SHORT).show();
+              Snackbar.make(buttonGlide, "image Picasso loaded!", Snackbar.LENGTH_SHORT).show();
             }
             else {
-              Snackbar.make(buttonGlide, "image error :(", Snackbar.LENGTH_SHORT).show();
+              Snackbar.make(buttonGlide, "image Picasso error :(", Snackbar.LENGTH_SHORT).show();
             }
           }
         });
@@ -79,6 +81,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setPicassoImageLoader() {
-    imageLoader = new PicassoImageLoaderImp(this, new PicassoCircleTransformation(20,4,R.color.colorPrimary));
+    imageLoader = new PicassoImageLoaderImp(this, new PicassoCircleTransformation(1,1,R.color.colorPrimary));
   }
 }

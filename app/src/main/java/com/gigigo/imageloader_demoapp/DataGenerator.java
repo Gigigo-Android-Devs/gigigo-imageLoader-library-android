@@ -8,7 +8,8 @@ public class DataGenerator {
       new String[] { "animals", "architecture", "nature", "people", "tech" };
 
   public static String generateRandomImageUrl() {
-    StringBuilder url = new StringBuilder("http://placeimg.com/200/100/");
+    StringBuilder url = new StringBuilder("http://placeimg.com/300/200/");
+    //TODO: try with "http://lorempixel.com/200/100/" for testing SocketTimeoutException
     return  url.append(getCategory()).toString();
   }
 

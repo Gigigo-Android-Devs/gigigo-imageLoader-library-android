@@ -19,7 +19,11 @@ import okhttp3.Response;
 public class PicassoImageLoaderImp implements ImageLoader {
 
   private final Picasso picasso;
-  private final PicassoCircleTransformation circleTransformation;
+  private PicassoCircleTransformation circleTransformation;
+
+  public PicassoImageLoaderImp(Context context) {
+    this.picasso = Picasso.with(context);
+  }
 
   public PicassoImageLoaderImp(Context context, PicassoCircleTransformation circleTransformation) {
     this.picasso = Picasso.with(context);
@@ -79,15 +83,30 @@ public class PicassoImageLoaderImp implements ImageLoader {
   }
 
   @Override public void loadCircleImage(int resourceId, ImageView imageView) {
-    picasso.load(resourceId).transform(circleTransformation).into(imageView);
+    if (circleTransformation != null) {
+      picasso.load(resourceId).transform(circleTransformation).into(imageView);
+    }
+    else {
+      picasso.load(resourceId).into(imageView);
+    }
   }
 
   @Override public void loadCircleImage(String url, ImageView imageView) {
-    picasso.load(url).transform(circleTransformation).into(imageView);
+    if (circleTransformation != null) {
+      picasso.load(url).transform(circleTransformation).into(imageView);
+    }
+    else {
+      picasso.load(url).into(imageView);
+    }
   }
 
   @Override public void loadCircleImage(String url, ImageView imageView, int placeholder) {
-    picasso.load(url).placeholder(placeholder).transform(circleTransformation).into(imageView);
+    if (circleTransformation != null) {
+      picasso.load(url).placeholder(placeholder).transform(circleTransformation).into(imageView);
+    }
+    else {
+      picasso.load(url).placeholder(placeholder).into(imageView);
+    }
   }
 
   @Override
@@ -106,6 +125,11 @@ public class PicassoImageLoaderImp implements ImageLoader {
       }
     });
 
-    picasso.load(url).transform(circleTransformation).into(imageView);
+    if (circleTransformation != null) {
+      picasso.load(url).transform(circleTransformation).into(imageView);
+    }
+    else {
+      picasso.load(url).transform(circleTransformation).into(imageView);
+    }
   }
 }

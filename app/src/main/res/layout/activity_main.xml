@@ -34,11 +34,10 @@
 
   <ImageView
       android:id="@+id/imageview"
-      android:layout_width="200dp"
-      android:layout_height="100dp"
+      android:layout_width="300dp"
+      android:layout_height="200dp"
       android:layout_centerHorizontal="true"
       android:layout_centerVertical="true"
-      android:adjustViewBounds="true"
       android:scaleType="fitCenter"
       android:src="@mipmap/ic_launcher"
       />

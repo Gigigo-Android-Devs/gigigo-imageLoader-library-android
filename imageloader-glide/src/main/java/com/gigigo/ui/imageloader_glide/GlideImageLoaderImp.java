@@ -1,174 +1,155 @@
 package com.gigigo.ui.imageloader_glide;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.widget.ImageView;
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.integration.okhttp.OkHttpUrlLoader;
-import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.signature.StringSignature;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
-import com.google.gson.Gson;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.UUID;
 
 public class GlideImageLoaderImp implements ImageLoader {
 
+  private final Context context;
   private final RequestManager glide;
-  private GlideCircleTransformation circleTransformation;
 
-  public GlideImageLoaderImp(RequestManager glide, GlideCircleTransformation circleTransformation) {
-    this.glide = glide;
-    this.circleTransformation = circleTransformation;
+  private int resourceId;
+  private String url;
+
+  private Drawable placeholder;
+  private Drawable error;
+
+  private int width;
+  private int height;
+
+  private ImageLoaderCallback imageLoaderCallback;
+
+  private BitmapTransformation bitmapTransformation;
+
+  private ImageView imageview;
+
+  public GlideImageLoaderImp(Context context) {
+    this.context = context;
+    this.glide = Glide.with(context);
   }
 
-  public GlideImageLoaderImp(RequestManager glide) {
-    this.glide = glide;
+  public GlideImageLoaderImp(Context context, BitmapTransformation bitmapTransformation) {
+    this.context = context;
+    this.glide = Glide.with(context);
+    this.bitmapTransformation = bitmapTransformation;
   }
 
-  @Override public void load(int resourceId, ImageView imageView) {
-    glide.load(resourceId).placeholder(resourceId).error(resourceId).into(imageView);
+  @Override public ImageLoader load(int resourceId) {
+    this.resourceId = resourceId;
+    return this;
   }
 
-  @Override public void load(String url, ImageView imageView) {
-    glide.load(url).into(imageView);
+  @Override public ImageLoader load(String url) {
+    this.url = url;
+    return this;
   }
 
-  @Override public void load(String url, ImageView imageView, int placeholder) {
-    glide.load(url).placeholder(placeholder).error(placeholder).into(imageView);
+  @Override public ImageLoader into(ImageView imageView) {
+    this.imageview = imageView;
+    return this;
   }
 
-  @Override
-  public void load(String url, ImageView imageView, int placeholder, int width, int height) {
-    glide.load(url)
-        .placeholder(placeholder)
-        .error(placeholder)
-        .override(width, height)
-        .into(imageView);
+  @Override public ImageLoader placeholder(int placeholder) {
+    placeholder(context.getResources().getDrawable(placeholder));
+    return this;
   }
 
-  @Override public void load(String url, final ImageView imageView, int placeholder,
-      final ImageLoaderCallback imageLoaderCallback) {
-
-    glide.load(url)
-        .placeholder(placeholder)
-        .error(placeholder)
-        .listener(new RequestListener<String, GlideDrawable>() {
-          @Override
-          public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-              boolean isFirstResource) {
-            imageLoaderCallback.onFinish(false);
-            return true;
-          }
-
-          @Override public boolean onResourceReady(GlideDrawable resource, String model,
-              Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            imageView.setImageDrawable(resource);
-            imageLoaderCallback.onFinish(true);
-            return true;
-          }
-        })
-        .into(imageView);
+  @Override public ImageLoader placeholder(Drawable placeholder) {
+    this.placeholder = placeholder;
+    return this;
   }
 
-  @Override
-  public void load(String url, final ImageView imageView, int placeholder, int width, int height,
-      final ImageLoaderCallback imageLoaderCallback) {
-
-    glide.load(url)
-        .placeholder(placeholder)
-        .error(placeholder)
-        .override(width, height)
-        .listener(new RequestListener<String, GlideDrawable>() {
-          @Override
-          public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-              boolean isFirstResource) {
-            imageLoaderCallback.onFinish(false);
-            return true;
-          }
-
-          @Override public boolean onResourceReady(GlideDrawable resource, String model,
-              Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            imageView.setImageDrawable(resource);
-            imageLoaderCallback.onFinish(true);
-            return true;
-          }
-        })
-        .into(imageView);
-  }
-
-  @Override public void loadCircleImage(int resourceId, ImageView imageView) {
-    if (circleTransformation != null) {
-      glide.load(resourceId).transform(circleTransformation).into(imageView);
-    } else {
-      load(resourceId, imageView);
-    }
-  }
-
-  @Override public void loadCircleImage(String url, ImageView imageView) {
-    if (circleTransformation != null) {
-      glide.load(url).transform(circleTransformation).into(imageView);
-    } else {
-      load(url, imageView);
-    }
-  }
-
-  @Override public void loadCircleImage(String url, ImageView imageView, int placeholder) {
-    if (circleTransformation != null) {
-      glide.load(url)
-          .placeholder(placeholder)
-          .error(placeholder)
-          .transform(circleTransformation)
-          .into(imageView);
-    } else {
-      load(url, imageView, placeholder);
-    }
+  @Override public ImageLoader error(int error) {
+    error(context.getResources().getDrawable(error));
+    return this;
   }
 
   @Override
-  public void loadCircleImage(String url, final Map<String, String> params, ImageView imageView,
-      int placeholder) {
+  public ImageLoader error(Drawable error) {
+    this.error = error;
+    return this;
+  }
 
-    OkHttpClient okHttpClient = new OkHttpClient();
-    okHttpClient.interceptors().add(new Interceptor() {
-      @Override public Response intercept(Chain chain) throws IOException {
-        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        String requestJsonBody = new Gson().toJson(params);
+  @Override
+  public ImageLoader override(int width, int height) {
+    this.width = width;
+    this.height = height;
+    return this;
+  }
 
-        RequestBody body = RequestBody.create(JSON, requestJsonBody);
-        final Request original = chain.request();
-        final Request.Builder requestBuilder = original.newBuilder().post(body);
-        return chain.proceed(requestBuilder.build());
+  @Override
+  public ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback) {
+    this.imageLoaderCallback = imageLoaderCallback;
+    return this;
+  }
+
+  @Override
+  public void build() {
+    DrawableTypeRequest drawableTypeRequest;
+
+    if (!TextUtils.isEmpty(url)) {
+      drawableTypeRequest = glide.load(url);
+    } else if (!TextUtils.isEmpty(url)) {
+      drawableTypeRequest = glide.load(resourceId);
+    } else {
+      return;
+    }
+
+    DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
+
+    if (placeholder != null) {
+      drawableRequestBuilder = drawableRequestBuilder.placeholder(placeholder);
+    }
+
+    if (error != null) {
+      drawableRequestBuilder = drawableRequestBuilder.error(error);
+    }
+
+    if (width > 0 && height > 0) {
+      drawableRequestBuilder = drawableRequestBuilder.override(width, height);
+    }
+
+    if (bitmapTransformation != null) {
+      drawableRequestBuilder = drawableRequestBuilder.transform(bitmapTransformation);
+    }
+
+    if (imageLoaderCallback != null) {
+      drawableRequestBuilder.listener(new RequestListener<String, GlideDrawable>() {
+        @Override
+        public boolean onException(Exception e, String model, Target<GlideDrawable> target,
+            boolean isFirstResource) {
+
+          if (placeholder != null) {
+            imageview.setImageDrawable(placeholder);
+          }
+
+          imageLoaderCallback.onFinish(false);
+          return true;
+        }
+
+        @Override public boolean onResourceReady(GlideDrawable resource, String model,
+            Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+          imageview.setImageDrawable(resource);
+          imageLoaderCallback.onFinish(true);
+          return true;
+        }
+      });
+
+      if (imageview != null) {
+        drawableRequestBuilder.into(imageview);
       }
-    });
-
-    Glide.get(imageView.getContext())
-        .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(okHttpClient));
-
-    if (circleTransformation != null) {
-      glide.load(url)
-          .placeholder(placeholder)
-          .signature(new StringSignature(UUID.randomUUID().toString()))
-          .error(placeholder)
-          .transform(circleTransformation)
-          .into(imageView);
-    } else {
-      glide.load(url)
-          .placeholder(placeholder)
-          .signature(new StringSignature(UUID.randomUUID().toString()))
-          .error(placeholder)
-          .into(imageView);
     }
   }
 }

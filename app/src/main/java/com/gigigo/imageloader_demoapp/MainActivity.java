@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader_glide.GlideImageLoaderImp;
@@ -38,19 +36,26 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         setGlideImageLoader();
         String url = DataGenerator.generateRandomImageUrl();
-        Snackbar.make(buttonGlide, url, Snackbar.LENGTH_SHORT).show();
-        //TODO: test it with circleimage
-        imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
-          @Override public void onFinish(boolean isSuccess) {
 
-            if(isSuccess) {
-              Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
-            }
-            else {
-              Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
-            }
-          }
-        });
+        Snackbar.make(buttonGlide, url, Snackbar.LENGTH_SHORT).show();
+
+        //TODO: test it with circleimage
+
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.ic_loading)
+            .into(imageView)
+            .loaderCallback(new ImageLoaderCallback() {
+              @Override public void onFinish(boolean isSuccess) {
+
+                if (isSuccess) {
+                  Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
+                } else {
+                  Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
+                }
+              }
+            })
+            .build();
       }
     });
 
@@ -60,27 +65,32 @@ public class MainActivity extends AppCompatActivity {
         String url = DataGenerator.generateRandomImageUrl();
         Snackbar.make(buttonPicasso, url, Snackbar.LENGTH_SHORT).show();
         //TODO: test it with circleimage
-        imageLoader.load(url, imageView, R.drawable.ic_loading, new ImageLoaderCallback() {
-          @Override public void onFinish(boolean isSuccess) {
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.ic_loading)
+            .into(imageView)
+            .loaderCallback(new ImageLoaderCallback() {
+              @Override public void onFinish(boolean isSuccess) {
 
-            if(isSuccess) {
-              Snackbar.make(buttonGlide, "image Picasso loaded!", Snackbar.LENGTH_SHORT).show();
-            }
-            else {
-              Snackbar.make(buttonGlide, "image Picasso error :(", Snackbar.LENGTH_SHORT).show();
-            }
-          }
-        });
+                if (isSuccess) {
+                  Snackbar.make(buttonGlide, "image Picasso loaded!", Snackbar.LENGTH_SHORT).show();
+                } else {
+                  Snackbar.make(buttonGlide, "image Picasso error :(", Snackbar.LENGTH_SHORT)
+                      .show();
+                }
+              }
+            })
+            .build();
       }
     });
   }
 
   private void setGlideImageLoader() {
-    RequestManager requestManager = Glide.with(this);
-    imageLoader = new GlideImageLoaderImp(requestManager);
+    imageLoader = new GlideImageLoaderImp(this);
   }
 
   private void setPicassoImageLoader() {
-    imageLoader = new PicassoImageLoaderImp(this, new PicassoCircleTransformation(1,1,R.color.colorPrimary));
+    imageLoader = new PicassoImageLoaderImp(this,
+        new PicassoCircleTransformation(1, 1, R.color.colorPrimary));
   }
 }

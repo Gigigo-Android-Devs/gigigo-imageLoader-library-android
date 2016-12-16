@@ -1,5 +1,6 @@
 package com.gigigo.ui.imageloader;
 
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import java.util.Map;
 
@@ -7,26 +8,24 @@ import java.util.Map;
  * Created by rui.alonso on 20/9/16.
  */
 public interface ImageLoader {
-  void load(String url, ImageView imageView);
 
-  void load(int resourceId, ImageView imageView);
+  ImageLoader load(int resourceId);
 
-  void load(String url, ImageView imageView, int placeholder);
+  ImageLoader load(String url);
 
-  void load(String url, ImageView imageView, int placeholder, int width, int height);
+  ImageLoader into(ImageView imageView);
 
-  void load(String url, ImageView imageView, int placeholder,
-      ImageLoaderCallback imageLoaderCallback);
+  ImageLoader placeholder(int placeholder);
 
-  void load(String url, ImageView imageView, int placeholder, int width, int height,
-      ImageLoaderCallback imageLoaderCallback);
+  ImageLoader placeholder(Drawable placeholder);
 
-  void loadCircleImage(String url, ImageView imageView);
+  ImageLoader error(int error);
 
-  void loadCircleImage(int resourceId, ImageView imageView);
+  ImageLoader error(Drawable error);
 
-  void loadCircleImage(String url, ImageView imageView, int placeholder);
+  ImageLoader override(int width, int height);
 
-  void loadCircleImage(String url, Map<String, String> params, ImageView imageView,
-      int placeholder);
+  ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback);
+
+  void build();
 }

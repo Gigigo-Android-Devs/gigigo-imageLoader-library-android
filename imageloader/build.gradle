@@ -17,7 +17,15 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+    incremental false //this is for do Clean pre any Build, do it 4 prevent Dagger no-true-errors
+  }
 }
+
+
 
 dependencies {
   compile rootProject.ext.libraries.androidSupportV7

@@ -35,3 +35,8 @@ imageLoader.load(url)
             .build();
 ```
 
+
+```gradle
+compile com.github.Gigigo-Android-Devs:imageloader-glide:1.2
+compile com.github.Gigigo-Android-Devs:imageloader-picasso:1.2
+```

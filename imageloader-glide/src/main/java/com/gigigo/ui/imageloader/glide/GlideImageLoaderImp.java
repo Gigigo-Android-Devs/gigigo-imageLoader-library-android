@@ -76,27 +76,23 @@ public class GlideImageLoaderImp implements ImageLoader {
     return this;
   }
 
-  @Override
-  public ImageLoader error(Drawable error) {
+  @Override public ImageLoader error(Drawable error) {
     this.error = error;
     return this;
   }
 
-  @Override
-  public ImageLoader override(int width, int height) {
+  @Override public ImageLoader override(int width, int height) {
     this.width = width;
     this.height = height;
     return this;
   }
 
-  @Override
-  public ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback) {
+  @Override public ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback) {
     this.imageLoaderCallback = imageLoaderCallback;
     return this;
   }
 
-  @Override
-  public void build() {
+  @Override public void build() {
     DrawableTypeRequest drawableTypeRequest;
 
     if (!TextUtils.isEmpty(url)) {
@@ -146,10 +142,10 @@ public class GlideImageLoaderImp implements ImageLoader {
           return true;
         }
       });
+    }
 
-      if (imageview != null) {
-        drawableRequestBuilder.into(imageview);
-      }
+    if (imageview != null) {
+      drawableRequestBuilder.into(imageview);
     }
   }
 }

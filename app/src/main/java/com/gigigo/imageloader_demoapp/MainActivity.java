@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
-import com.gigigo.ui.imageloader_glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader_picasso.PicassoCircleTransformation;
-import com.gigigo.ui.imageloader_picasso.PicassoImageLoaderImp;
+import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
+import com.gigigo.ui.imageloader.picasso.PicassoCircleTransformation;
+import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 public class MainActivity extends AppCompatActivity {
 

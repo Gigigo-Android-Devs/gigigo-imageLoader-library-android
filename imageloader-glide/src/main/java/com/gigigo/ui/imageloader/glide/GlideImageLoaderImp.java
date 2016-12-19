@@ -1,4 +1,4 @@
-package com.gigigo.ui.imageloader_glide;
+package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

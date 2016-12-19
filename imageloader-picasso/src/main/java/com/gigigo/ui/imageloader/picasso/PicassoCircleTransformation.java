@@ -1,4 +1,4 @@
-package com.gigigo.ui.imageloader_picasso;
+package com.gigigo.ui.imageloader.picasso;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

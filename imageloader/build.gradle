@@ -28,5 +28,4 @@ android {
 
 
 dependencies {
-  compile rootProject.ext.libraries.androidSupportV7
 }

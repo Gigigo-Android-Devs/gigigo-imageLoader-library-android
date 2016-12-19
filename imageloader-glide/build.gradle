@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.Gigigo-Android-Devs'
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -31,7 +29,6 @@ android {
 
 dependencies {
   compile rootProject.ext.libraries.androidSupportV7
-  compile rootProject.ext.libraries.gson
   compile rootProject.ext.libraries.glide
   compile rootProject.ext.libraries.glideOkHttpIntegration
 

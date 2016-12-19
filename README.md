@@ -39,6 +39,6 @@ imageLoader.load(url)
 You can use this library importing the glide or picasso dependency in your build.gradle file
 
 ```gradle
-compile com.github.Gigigo-Android-Devs:imageloader-glide:1.2
-compile com.github.Gigigo-Android-Devs:imageloader-picasso:1.2
+compile('com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide:1.2.2')
+compile('com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-picasso:1.2.2')
 ```

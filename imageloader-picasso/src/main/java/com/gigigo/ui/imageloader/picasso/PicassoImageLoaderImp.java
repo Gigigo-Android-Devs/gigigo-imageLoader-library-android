@@ -1,14 +1,15 @@
 package com.gigigo.ui.imageloader.picasso;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
 public class PicassoImageLoaderImp implements ImageLoader {
@@ -116,19 +117,23 @@ public class PicassoImageLoaderImp implements ImageLoader {
     }
 
     if (imageview != null) {
-      if (imageLoaderCallback != null) {
-        requestCreator.into(imageview, new Callback() {
-          @Override public void onSuccess() {
-            imageLoaderCallback.onFinish(true);
-          }
+      requestCreator.into(imageview);
 
-          @Override public void onError() {
-            imageLoaderCallback.onFinish(false);
-          }
-        });
-      } else {
-        requestCreator.into(imageview);
-      }
+    } else if (imageLoaderCallback != null) {
+      requestCreator.into(new Target() {
+
+        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+          imageLoaderCallback.onSuccess(bitmap);
+        }
+
+        @Override public void onBitmapFailed(Drawable errorDrawable) {
+          imageLoaderCallback.onError(errorDrawable);
+        }
+
+        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+          imageLoaderCallback.onLoading();
+        }
+      });
     }
   }
 }

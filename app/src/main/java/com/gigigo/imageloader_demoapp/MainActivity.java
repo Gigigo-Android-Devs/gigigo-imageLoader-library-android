@@ -1,5 +1,7 @@
 package com.gigigo.imageloader_demoapp;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
-import com.gigigo.ui.imageloader_glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader_picasso.PicassoCircleTransformation;
-import com.gigigo.ui.imageloader_picasso.PicassoImageLoaderImp;
+import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
+import com.gigigo.ui.imageloader.picasso.PicassoCircleTransformation;
+import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,15 +46,20 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading)
-            .into(imageView)
+            //.into(imageView)
             .loaderCallback(new ImageLoaderCallback() {
-              @Override public void onFinish(boolean isSuccess) {
+              @Override public void onSuccess(Bitmap bitmap) {
+                Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
+                imageView.setImageBitmap(bitmap);
+              }
 
-                if (isSuccess) {
-                  Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
-                } else {
-                  Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
-                }
+              @Override public void onError(Drawable errorDrawable) {
+                Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
+                imageView.setImageResource(R.drawable.ic_loading);
+              }
+
+              @Override public void onLoading() {
+                imageView.setImageResource(R.drawable.ic_loading);
               }
             })
             .build();
@@ -64,20 +71,26 @@ public class MainActivity extends AppCompatActivity {
         setPicassoImageLoader();
         String url = DataGenerator.generateRandomImageUrl();
         Snackbar.make(buttonPicasso, url, Snackbar.LENGTH_SHORT).show();
+
         //TODO: test it with circleimage
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading)
-            .into(imageView)
+            //.into(imageView)
             .loaderCallback(new ImageLoaderCallback() {
-              @Override public void onFinish(boolean isSuccess) {
+              @Override public void onSuccess(Bitmap bitmap) {
+                Snackbar.make(buttonGlide, "image Picasso loaded!", Snackbar.LENGTH_SHORT).show();
+                imageView.setImageBitmap(bitmap);
+              }
 
-                if (isSuccess) {
-                  Snackbar.make(buttonGlide, "image Picasso loaded!", Snackbar.LENGTH_SHORT).show();
-                } else {
-                  Snackbar.make(buttonGlide, "image Picasso error :(", Snackbar.LENGTH_SHORT)
-                      .show();
-                }
+              @Override public void onError(Drawable errorDrawable) {
+                Snackbar.make(buttonGlide, "image Picasso error :(", Snackbar.LENGTH_SHORT)
+                    .show();
+                imageView.setImageResource(R.drawable.ic_loading);
+              }
+
+              @Override public void onLoading() {
+                imageView.setImageResource(R.drawable.ic_loading);
               }
             })
             .build();

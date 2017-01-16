@@ -1,6 +1,7 @@
-package com.gigigo.ui.imageloader_glide;
+package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -9,8 +10,11 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
@@ -76,32 +80,28 @@ public class GlideImageLoaderImp implements ImageLoader {
     return this;
   }
 
-  @Override
-  public ImageLoader error(Drawable error) {
+  @Override public ImageLoader error(Drawable error) {
     this.error = error;
     return this;
   }
 
-  @Override
-  public ImageLoader override(int width, int height) {
+  @Override public ImageLoader override(int width, int height) {
     this.width = width;
     this.height = height;
     return this;
   }
 
-  @Override
-  public ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback) {
+  @Override public ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback) {
     this.imageLoaderCallback = imageLoaderCallback;
     return this;
   }
 
-  @Override
-  public void build() {
+  @Override public void build() {
     DrawableTypeRequest drawableTypeRequest;
 
     if (!TextUtils.isEmpty(url)) {
       drawableTypeRequest = glide.load(url);
-    } else if (!TextUtils.isEmpty(url)) {
+    } else if (resourceId != 0) {
       drawableTypeRequest = glide.load(resourceId);
     } else {
       return;
@@ -125,31 +125,28 @@ public class GlideImageLoaderImp implements ImageLoader {
       drawableRequestBuilder = drawableRequestBuilder.transform(bitmapTransformation);
     }
 
-    if (imageLoaderCallback != null) {
-      drawableRequestBuilder.listener(new RequestListener<String, GlideDrawable>() {
-        @Override
-        public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-            boolean isFirstResource) {
+    if (imageview != null) {
+      drawableRequestBuilder.into(imageview);
+      
+    } else if (imageLoaderCallback != null) {
 
-          if (placeholder != null) {
-            imageview.setImageDrawable(placeholder);
-          }
+      drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
 
-          imageLoaderCallback.onFinish(false);
-          return true;
+        @Override public void onLoadStarted(Drawable placeholder) {
+          super.onLoadStarted(placeholder);
+          imageLoaderCallback.onLoading();
         }
 
-        @Override public boolean onResourceReady(GlideDrawable resource, String model,
-            Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-          imageview.setImageDrawable(resource);
-          imageLoaderCallback.onFinish(true);
-          return true;
+        @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
+          super.onLoadFailed(e, errorDrawable);
+          imageLoaderCallback.onError(errorDrawable);
+        }
+
+        @Override public void onResourceReady(GlideBitmapDrawable resource,
+            GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+          imageLoaderCallback.onSuccess(resource.getBitmap());
         }
       });
-
-      if (imageview != null) {
-        drawableRequestBuilder.into(imageview);
-      }
     }
   }
 }

@@ -37,12 +37,6 @@ public class PicassoImageLoaderImp implements ImageLoader {
     this.picasso = Picasso.with(context);
   }
 
-  public PicassoImageLoaderImp(Context context, Transformation bitmapTransformation) {
-    this.context = context;
-    this.picasso = Picasso.with(context);
-    this.bitmapTransformation = bitmapTransformation;
-  }
-
   @Override public ImageLoader load(int resourceId) {
     this.resourceId = resourceId;
     return this;
@@ -81,6 +75,13 @@ public class PicassoImageLoaderImp implements ImageLoader {
   @Override public ImageLoader override(int width, int height) {
     this.width = width;
     this.height = height;
+    return this;
+  }
+
+  @Override public ImageLoader transform(Object bitmapTransformation) {
+    if (bitmapTransformation instanceof Transformation) {
+      this.bitmapTransformation = (Transformation) bitmapTransformation;
+    }
     return this;
   }
 

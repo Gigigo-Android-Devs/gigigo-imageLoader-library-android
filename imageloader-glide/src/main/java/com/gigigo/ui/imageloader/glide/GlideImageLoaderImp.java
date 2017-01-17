@@ -9,6 +9,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -42,12 +43,6 @@ public class GlideImageLoaderImp implements ImageLoader {
   public GlideImageLoaderImp(Context context) {
     this.context = context;
     this.glide = Glide.with(context);
-  }
-
-  public GlideImageLoaderImp(Context context, BitmapTransformation bitmapTransformation) {
-    this.context = context;
-    this.glide = Glide.with(context);
-    this.bitmapTransformation = bitmapTransformation;
   }
 
   @Override public ImageLoader load(int resourceId) {
@@ -88,6 +83,13 @@ public class GlideImageLoaderImp implements ImageLoader {
   @Override public ImageLoader override(int width, int height) {
     this.width = width;
     this.height = height;
+    return this;
+  }
+
+  @Override public ImageLoader transform(Object bitmapTransformation) {
+    if (bitmapTransformation instanceof BitmapTransformation) {
+      this.bitmapTransformation = (BitmapTransformation) bitmapTransformation;
+    }
     return this;
   }
 

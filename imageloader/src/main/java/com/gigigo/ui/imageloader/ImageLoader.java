@@ -25,6 +25,8 @@ public interface ImageLoader {
 
   ImageLoader override(int width, int height);
 
+  ImageLoader transform(Object bitmapTransformation);
+
   ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback);
 
   void build();

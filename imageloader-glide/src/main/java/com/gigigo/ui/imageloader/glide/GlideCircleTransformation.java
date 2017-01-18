@@ -7,21 +7,29 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DimenRes;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-public class GlideCircleTransformation extends BitmapTransformation {
+public class GlideCircleTransformation implements Transformation<Bitmap> {
 
-  private final Context context;
-  private final int borderId;
-  private final int colorId;
+  private final BitmapPool pool;
+  private final float dimenBorder;
+  private final int color;
 
-  public GlideCircleTransformation(Context context, int borderId, int colorId) {
-    super(context);
-    this.context = context;
+  public GlideCircleTransformation(Context context, float dimenBorder, int color) {
+    this(Glide.get(context).getBitmapPool(), dimenBorder, color);
+  }
 
-    this.borderId = borderId;
-    this.colorId = colorId;
+  public GlideCircleTransformation(BitmapPool pool, float dimenBorder, int color) {
+    this.pool = pool;
+    this.dimenBorder = dimenBorder;
+    this.color = color;
   }
 
   /**
@@ -60,7 +68,7 @@ public class GlideCircleTransformation extends BitmapTransformation {
    *
    * @param bitmap imagen redonda.
    */
-  public static Bitmap addColoredFrame(Bitmap bitmap, int width, int color) {
+  private static Bitmap addColoredFrame(Bitmap bitmap, float width, int color) {
 
     int w = bitmap.getWidth();
     int h = bitmap.getHeight();
@@ -94,11 +102,10 @@ public class GlideCircleTransformation extends BitmapTransformation {
   }
 
   @Override
-  protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-    Bitmap myTransformedBitmap = cropToCircle(pool, toTransform);
+  public Resource<Bitmap> transform(Resource<Bitmap> resource, int outWidth, int outHeight) {
+    Bitmap myTransformedBitmap = cropToCircle(pool, resource.get());
     myTransformedBitmap =
-        addColoredFrame(myTransformedBitmap, (int) context.getResources().getDimension(borderId),
-            context.getResources().getColor(colorId));
-    return myTransformedBitmap;
+        addColoredFrame(myTransformedBitmap, dimenBorder, color);
+    return BitmapResource.obtain(myTransformedBitmap, pool);
   }
 }

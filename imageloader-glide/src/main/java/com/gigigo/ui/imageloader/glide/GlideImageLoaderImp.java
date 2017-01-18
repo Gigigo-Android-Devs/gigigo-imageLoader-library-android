@@ -1,7 +1,6 @@
 package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -12,11 +11,8 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 
@@ -36,7 +32,7 @@ public class GlideImageLoaderImp implements ImageLoader {
 
   private ImageLoaderCallback imageLoaderCallback;
 
-  private BitmapTransformation bitmapTransformation;
+  private Transformation bitmapTransformation;
 
   private ImageView imageview;
 
@@ -87,8 +83,8 @@ public class GlideImageLoaderImp implements ImageLoader {
   }
 
   @Override public ImageLoader transform(Object bitmapTransformation) {
-    if (bitmapTransformation instanceof BitmapTransformation) {
-      this.bitmapTransformation = (BitmapTransformation) bitmapTransformation;
+    if (bitmapTransformation instanceof Transformation) {
+      this.bitmapTransformation = (Transformation) bitmapTransformation;
     }
     return this;
   }
@@ -124,12 +120,11 @@ public class GlideImageLoaderImp implements ImageLoader {
     }
 
     if (bitmapTransformation != null) {
-      drawableRequestBuilder = drawableRequestBuilder.transform(bitmapTransformation);
+      drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation);
     }
 
     if (imageview != null) {
       drawableRequestBuilder.into(imageview);
-      
     } else if (imageLoaderCallback != null) {
 
       drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {

@@ -12,6 +12,7 @@ import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
+import com.gigigo.ui.imageloader.glide.RoundedCornersTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(buttonGlide, url, Snackbar.LENGTH_SHORT).show();
 
-        //TODO: test it with circleimage
+        //TODO: Download more transformation: https://github.com/wasabeef/glide-transformations
 
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading)
-            .transform(new GlideCircleTransformation(MainActivity.this, 12, android.R.color.white))
+            //.transform(new GlideCircleTransformation(MainActivity.this, 12, getResources().getColor(android.R.color.black)))
+            .transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
             .into(imageView)
             //.loaderCallback(new ImageLoaderCallback() {
             //  @Override public void onSuccess(Bitmap bitmap) {

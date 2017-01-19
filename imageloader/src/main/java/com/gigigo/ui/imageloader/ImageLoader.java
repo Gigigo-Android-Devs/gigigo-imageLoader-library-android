@@ -9,25 +9,7 @@ import java.util.Map;
  */
 public interface ImageLoader {
 
-  ImageLoader load(int resourceId);
+  ImageLoaderBuilder load(int resourceId);
 
-  ImageLoader load(String url);
-
-  ImageLoader into(ImageView imageView);
-
-  ImageLoader placeholder(int placeholder);
-
-  ImageLoader placeholder(Drawable placeholder);
-
-  ImageLoader error(int error);
-
-  ImageLoader error(Drawable error);
-
-  ImageLoader override(int width, int height);
-
-  ImageLoader transform(Object bitmapTransformation);
-
-  ImageLoader loaderCallback(ImageLoaderCallback imageLoaderCallback);
-
-  void build();
+  ImageLoaderBuilder load(String url);
 }

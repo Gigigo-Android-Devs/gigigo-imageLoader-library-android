@@ -10,9 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
-import com.gigigo.ui.imageloader.glide.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.RoundedCornersTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.RoundedCornersTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(buttonGlide, url, Snackbar.LENGTH_SHORT).show();
 
-        //TODO: Download more transformation: https://github.com/wasabeef/glide-transformations
-
+        //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading)

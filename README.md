@@ -1,4 +1,6 @@
 # imageLoader
+[![Build Status](https://travis-ci.org/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg?branch=master)](https://travis-ci.org/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg?branch=master)
+[![](https://jitpack.io/v/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg)](https://jitpack.io/#Gigigo-Android-Devs/gigigo-imageLoader-library-android)
 
 #Library wrapper to load images using Glide and Picasso libraries
 

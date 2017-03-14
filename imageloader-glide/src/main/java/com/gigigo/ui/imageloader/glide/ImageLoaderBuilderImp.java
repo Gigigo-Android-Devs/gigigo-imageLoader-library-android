@@ -35,6 +35,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private ImageView imageview;
 
+  private boolean centerCrop;
+
   ImageLoaderBuilderImp(Context context) {
     this.context = context;
     this.glide = Glide.with(context);
@@ -83,6 +85,13 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
+  @Override public ImageLoaderBuilder centerCrop(Boolean center) {
+    this.centerCrop = center;
+    return this;
+  }
+
+
+
   @Override public void build() {
     DrawableTypeRequest drawableTypeRequest;
 
@@ -110,6 +119,9 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
     if (bitmapTransformation != null) {
       drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation);
+    }
+    if (centerCrop){
+      drawableRequestBuilder.centerCrop();
     }
 
     if (imageview != null) {

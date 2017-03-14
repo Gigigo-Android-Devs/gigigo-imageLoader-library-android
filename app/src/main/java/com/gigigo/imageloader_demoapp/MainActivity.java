@@ -8,10 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import com.bumptech.glide.Glide;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.transformations.RoundedCornersTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,17 +23,27 @@ public class MainActivity extends AppCompatActivity {
   private Button buttonGlide;
   private Button buttonPicasso;
 
+
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+
+
     initView();
+
+
+
   }
 
   private void initView() {
+
     imageView = (ImageView) findViewById(R.id.imageview);
     buttonGlide = (Button) findViewById(R.id.button_glide);
     buttonPicasso = (Button) findViewById(R.id.button_picasso);
+
+
 
     buttonGlide.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -45,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading)
-            //.transform(new GlideCircleTransformation(MainActivity.this, 12, getResources().getColor(android.R.color.black)))
-            .transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
+            .transform(new GlideCircleTransformation(MainActivity.this, 12, getResources().getColor(android.R.color.black)))
+            //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
             .into(imageView)
             //.loaderCallback(new ImageLoaderCallback() {
             //  @Override public void onSuccess(Bitmap bitmap) {
@@ -97,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             .build();
       }
     });
+
+
   }
 
   private void setGlideImageLoader() {

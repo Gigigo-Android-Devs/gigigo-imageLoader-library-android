@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gigigo.imageloader_demoapp.MainActivity"
     >
-
+  
   <Button
       android:id="@+id/button_glide"
       android:layout_width="wrap_content"

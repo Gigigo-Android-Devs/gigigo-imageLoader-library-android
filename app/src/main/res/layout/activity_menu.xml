@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gigigo.imageloader_demoapp.MenuActivity"
+    >
+
+  <ScrollView
+      android:id="@+id/scroll"
+      android:layout_width="368dp"
+      android:layout_height="wrap_content"
+      tools:layout_editor_absoluteX="8dp"
+      tools:layout_editor_absoluteY="0dp"
+      >
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+      <Button
+          android:id="@+id/button_glide_into"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide into"
+          />
+
+      <Button
+          android:id="@+id/button_glide_callback"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide callback"
+
+          />
+
+      <Button
+          android:id="@+id/button_glide_resource"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide from resource"
+
+          />
+
+      <Button
+          android:id="@+id/button_glide_center_crop"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide centerCrop"
+
+          />
+
+      <Button
+          android:id="@+id/button_glide_error"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Url error"
+
+          />
+
+
+      <Button
+          android:id="@+id/button_picasso_into"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso into"
+          />
+
+      <Button
+          android:id="@+id/button_picasso_callback"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso callback"
+
+          />
+
+      <Button
+          android:id="@+id/button_picasso_resource"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso from resource"
+
+          />
+
+      <Button
+          android:id="@+id/button_picasso_center_crop"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso centerCrop"
+
+          />
+
+      <Button
+          android:id="@+id/button_picasso_error"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso Url error"
+          />
+
+      <ImageView
+          android:id="@+id/imageview2"
+          android:layout_width="300dp"
+          android:layout_height="200dp"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:scaleType="fitCenter"
+          android:src="@mipmap/ic_launcher"
+          />
+    </LinearLayout>
+
+
+  </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

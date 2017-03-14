@@ -21,6 +21,8 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback);
 
+  ImageLoaderBuilder centerCrop(Boolean centerCrop);
+
   void build();
 
   void clearPreviousData();

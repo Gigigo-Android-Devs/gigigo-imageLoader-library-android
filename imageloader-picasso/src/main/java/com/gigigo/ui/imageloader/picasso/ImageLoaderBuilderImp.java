@@ -30,6 +30,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private Transformation bitmapTransformation;
 
+  private boolean centerCrop;
+
   private ImageView imageview;
 
   public ImageLoaderBuilderImp(Context context) {
@@ -80,16 +82,23 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
+  @Override public ImageLoaderBuilder centerCrop(Boolean centerCrop) {
+    this.centerCrop = centerCrop;
+    return this;
+  }
+
+
   @Override public void build() {
     RequestCreator requestCreator;
 
     if (!TextUtils.isEmpty(url)) {
       requestCreator = picasso.load(url);
-    } else if (!TextUtils.isEmpty(url)) {
+    } else if (resourceId != 0) {
       requestCreator = picasso.load(resourceId);
     } else {
       return;
     }
+
 
     if (placeholder != null) {
       requestCreator = requestCreator.placeholder(placeholder);
@@ -106,6 +115,11 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     if (bitmapTransformation != null) {
       requestCreator = requestCreator.transform(bitmapTransformation);
     }
+
+    if (centerCrop){
+      requestCreator = requestCreator.centerCrop();
+    }
+
 
     if (imageview != null) {
       requestCreator.into(imageview);

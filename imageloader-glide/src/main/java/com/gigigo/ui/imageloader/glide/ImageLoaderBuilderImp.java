@@ -3,6 +3,7 @@ package com.gigigo.ui.imageloader.glide;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
@@ -29,6 +30,10 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private int width;
   private int height;
 
+  private float degrees;
+
+  private float sizeMultiplier;
+
   private ImageLoaderCallback imageLoaderCallback;
 
   private Transformation bitmapTransformation;
@@ -36,6 +41,10 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private ImageView imageview;
 
   private boolean centerCrop;
+
+  private boolean fitCenter;
+
+  private boolean animate;
 
   ImageLoaderBuilderImp(Context context) {
     this.context = context;
@@ -90,7 +99,25 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
+  @Override public ImageLoaderBuilder fitCenter(Boolean fitCenter) {
+    this.fitCenter = fitCenter;
+    return this;
+  }
 
+  @Override public ImageLoaderBuilder rotate(float degrees) {
+    this.degrees = degrees;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder animate(Boolean animate) {
+    this.animate = animate;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder sizeMultiplier(float sizeMultiplier) {
+    this.sizeMultiplier = sizeMultiplier;
+    return this;
+  }
 
   @Override public void build() {
     DrawableTypeRequest drawableTypeRequest;
@@ -121,7 +148,16 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
       drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation);
     }
     if (centerCrop){
-      drawableRequestBuilder.centerCrop();
+      drawableRequestBuilder = drawableRequestBuilder.centerCrop();
+    }
+    if (fitCenter){
+      drawableRequestBuilder = drawableRequestBuilder.fitCenter();
+    }
+    if (animate){
+      drawableRequestBuilder = drawableRequestBuilder.animate(android.R.anim.slide_in_left);
+    }
+    if (sizeMultiplier > 0){
+      drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
     }
 
     if (imageview != null) {
@@ -163,5 +199,15 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     bitmapTransformation = null;
 
     imageview = null;
+
+    centerCrop = false;
+
+    fitCenter = false;
+
+    animate = false;
+
+    degrees = 0;
+
+    sizeMultiplier = 0;
   }
 }

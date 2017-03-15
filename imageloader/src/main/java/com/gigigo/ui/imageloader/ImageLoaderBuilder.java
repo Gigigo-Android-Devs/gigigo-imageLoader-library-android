@@ -23,6 +23,16 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder centerCrop(Boolean centerCrop);
 
+  ImageLoaderBuilder fitCenter(Boolean fitCenter);
+
+  ImageLoaderBuilder rotate(float degrees);
+
+  ImageLoaderBuilder animate(Boolean animate);
+
+  ImageLoaderBuilder sizeMultiplier(float sizeMultiplier);
+
+
+
   void build();
 
   void clearPreviousData();

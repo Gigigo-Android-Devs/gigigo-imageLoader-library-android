@@ -59,9 +59,35 @@
           android:id="@+id/button_glide_override"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="Picasso Override 50x50"
+          android:text="Glide Override 50x50"
 
           />
+
+      <Button
+          android:id="@+id/button_glide_fit_center"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Fit center"
+
+          />
+
+      <Button
+          android:id="@+id/button_glide_animate"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Animate"
+
+          />
+
+
+      <Button
+          android:id="@+id/button_glide_size_multiplier"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Size Multiplier 0.5"
+
+          />
+
 
 
       <Button
@@ -111,6 +137,23 @@
           android:text="Picasso Override 50x50"
 
           />
+
+      <Button
+          android:id="@+id/button_picasso_fit_center"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso Fit center"
+
+          />
+
+      <Button
+          android:id="@+id/button_picasso_rotate"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso Rotate 90º"
+
+          />
+
 
 
       <Button

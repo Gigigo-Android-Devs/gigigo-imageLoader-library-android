@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
   private Button btnPicassoCenterCrop;
   private Button btnGlideOverride;
   private Button btnPicassoOverride;
+  private Button btnGlideFitCenter;
+  private Button btnPicassoFitCenter;
+  private Button btnPicassoRotate;
+  private Button btnGlideAnimate;
+  private Button btnGlideSizeMulptiplier;
 
   private ImageLoader imageLoader;
   private ImageView imageView;
@@ -42,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
     btnGlideInto = (Button) findViewById(R.id.button_glide_into);
-    btnGlideError = (Button) findViewById(R.id.button_glide_error);
     btnGlideResource = (Button) findViewById(R.id.button_glide_resource);
     btnGlideCenterCrop = (Button) findViewById(R.id.button_glide_center_crop);
     btnGlideOverride = (Button) findViewById(R.id.button_glide_override);
+    btnGlideFitCenter = (Button) findViewById(R.id.button_glide_fit_center);
+    btnGlideAnimate = (Button) findViewById(R.id.button_glide_animate);
+    btnGlideSizeMulptiplier = (Button) findViewById(R.id.button_glide_size_multiplier);
+    btnGlideError = (Button) findViewById(R.id.button_glide_error);
 
     btnPicassoCallback = (Button) findViewById(R.id.button_picasso_callback);
     btnPicassoInto = (Button) findViewById(R.id.button_picasso_into);
@@ -53,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     btnPicassoResource = (Button) findViewById(R.id.button_picasso_resource);
     btnPicassoCenterCrop = (Button) findViewById(R.id.button_picasso_center_crop);
     btnPicassoOverride = (Button) findViewById(R.id.button_picasso_override);
+    btnPicassoFitCenter = (Button) findViewById(R.id.button_picasso_fit_center);
+    btnPicassoRotate = (Button) findViewById(R.id.button_picasso_rotate);
 
     LayoutInflater inflater = getLayoutInflater();
     View view = inflater.inflate(R.layout.dialog_image, null);
@@ -138,16 +149,12 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnGlideCenterCrop, url, Snackbar.LENGTH_SHORT).show();
 
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
-        imageLoader.load(url)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
+        imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
             //.transform(new GlideCircleTransformation(MainActivity.this, 12,
             //    getResources().getColor(android.R.color.black)))
             //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
-            .into(imageView)
-            .centerCrop(Boolean.TRUE)
-            .build();
+            .into(imageView).centerCrop(Boolean.TRUE).build();
         dialog.show();
       }
     });
@@ -161,8 +168,60 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .override(50,50)
+            .override(50, 50)
             .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideFitCenter.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideFitCenter, url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .fitCenter(Boolean.TRUE)
+            .build();
+        dialog.show();
+      }
+    });
+
+
+    btnGlideAnimate.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideAnimate, url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .animate(Boolean.TRUE)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideSizeMulptiplier.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideSizeMulptiplier, url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .sizeMultiplier(0.3f)
             .build();
         dialog.show();
       }
@@ -274,13 +333,46 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .override(50,50)
+            .override(50, 50)
             .into(imageView)
             .build();
         dialog.show();
       }
     });
 
+    btnPicassoFitCenter.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setPicassoImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnPicassoFitCenter, url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .fitCenter(Boolean.TRUE)
+            .override(500,500)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnPicassoRotate.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setPicassoImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnPicassoRotate, url, Snackbar.LENGTH_SHORT).show();
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .rotate(90)
+            .build();
+        dialog.show();
+      }
+    });
 
     btnPicassoError.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -297,6 +389,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
       }
     });
+
+    //End onCreate
   }
 
   public Dialog onCreateDialog(View view) {
@@ -313,8 +407,8 @@ public class MainActivity extends AppCompatActivity {
           }
         });
     return builder.create();
-  }
 
+  }
 
   private void setGlideImageLoader() {
     imageLoader = new GlideImageLoaderImp(this);

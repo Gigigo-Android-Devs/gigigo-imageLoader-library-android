@@ -26,11 +26,17 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private int width;
   private int height;
 
+  private float degrees;
+
   private ImageLoaderCallback imageLoaderCallback;
 
   private Transformation bitmapTransformation;
 
   private boolean centerCrop;
+
+  private boolean fitCenter;
+
+
 
   private ImageView imageview;
 
@@ -87,6 +93,23 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
+  @Override public ImageLoaderBuilder fitCenter(Boolean fitCenter) {
+    this.fitCenter = fitCenter;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder rotate(float degrees) {
+    this.degrees = degrees;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder animate(Boolean animate) {
+    return null;
+  }
+
+  @Override public ImageLoaderBuilder sizeMultiplier(float sizeMultiplier) {
+    return null;
+  }
 
   @Override public void build() {
     RequestCreator requestCreator;
@@ -118,6 +141,13 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
     if (centerCrop){
       requestCreator = requestCreator.centerCrop();
+    }
+
+    if (fitCenter){
+      requestCreator = requestCreator.centerInside();
+    }
+    if (degrees > 0){
+      requestCreator = requestCreator.rotate(degrees);
     }
 
 
@@ -156,5 +186,11 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     bitmapTransformation = null;
 
     imageview = null;
+
+    centerCrop = false;
+
+    fitCenter = false;
+
+    degrees = 0;
   }
 }

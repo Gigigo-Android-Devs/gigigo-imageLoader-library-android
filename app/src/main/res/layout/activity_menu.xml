@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gigigo.imageloader_demoapp.MenuActivity"
+    tools:context="com.gigigo.imageloader_demoapp.MainActivity"
     >
 
   <ScrollView
@@ -56,6 +56,15 @@
           />
 
       <Button
+          android:id="@+id/button_glide_override"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso Override 50x50"
+
+          />
+
+
+      <Button
           android:id="@+id/button_glide_error"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -96,21 +105,21 @@
           />
 
       <Button
+          android:id="@+id/button_picasso_override"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Picasso Override 50x50"
+
+          />
+
+
+      <Button
           android:id="@+id/button_picasso_error"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:text="Picasso Url error"
           />
 
-      <ImageView
-          android:id="@+id/imageview2"
-          android:layout_width="300dp"
-          android:layout_height="200dp"
-          android:layout_centerHorizontal="true"
-          android:layout_centerVertical="true"
-          android:scaleType="fitCenter"
-          android:src="@mipmap/ic_launcher"
-          />
     </LinearLayout>
 
 

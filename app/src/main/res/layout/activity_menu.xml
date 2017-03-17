@@ -25,6 +25,14 @@
         >
 
       <Button
+          android:id="@+id/button_glide_blur"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Blur"
+          />
+
+
+      <Button
           android:id="@+id/button_glide_into"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gigigo.imageloader_demoapp.BlurActivity"
+    android:id="@+id/blurView"
+    >
+
+  <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:src="@drawable/lansdcape"
+      android:scaleType="centerCrop"
+      android:id="@+id/imageBackground"
+      />
+
+
+  <ImageView
+      android:id="@+id/imageCenter"
+      android:layout_width="match_parent"
+      android:layout_height="180dp"
+      android:layout_marginTop="160dip"
+      android:scaleType="fitXY"
+      android:src="@drawable/lansdcape"
+      />
+
+
+</RelativeLayout>

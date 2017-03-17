@@ -3,6 +3,7 @@ package com.gigigo.imageloader_demoapp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
+import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
   private Button btnPicassoRotate;
   private Button btnGlideAnimate;
   private Button btnGlideSizeMulptiplier;
+  private Button btnGlideBlur;
 
   private ImageLoader imageLoader;
   private ImageView imageView;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
 
+    btnGlideBlur = (Button) findViewById(R.id.button_glide_blur);
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
     btnGlideInto = (Button) findViewById(R.id.button_glide_into);
     btnGlideResource = (Button) findViewById(R.id.button_glide_resource);
@@ -70,6 +74,29 @@ public class MainActivity extends AppCompatActivity {
     imageView = (ImageView) view.findViewById(R.id.imageview2);
 
     final Dialog dialog = onCreateDialog(view);
+
+
+    btnGlideBlur.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideBlur, url, Snackbar.LENGTH_SHORT).show();
+
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+
+        //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
+        imageLoader.load(url)
+            .transform(new BlurTransformation(MainActivity.this, 40))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
 
     btnGlideInto.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {

@@ -17,6 +17,7 @@ allprojects {
 
     modules = [imageloader             : project(":imageloader"),
                imageloaderGlide        : project(":imageloader-glide"),
+               imageloaderGlideBlur        : project(":imageloader-glide-blur"),
                imageloaderPicasso      : project(":imageloader-picasso")]
   }
 }

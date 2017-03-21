@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.example.imageloader_glide_blur"
+    package="com.gigigo.imageloader_glide_blur"
     >
 
     <application android:allowBackup="true"

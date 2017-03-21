@@ -36,11 +36,12 @@ dependencies {
   compile rootProject.ext.libraries.androidSupportV7
   compile rootProject.ext.libraries.glide
   compile rootProject.ext.libraries.glideOkHttpIntegration
-
+  compile rootProject.ext.libraries.glideTransformations
   compile rootProject.ext.modules.imageloader
+
+
 }
 
-dependencies {
 
-  compile 'jp.wasabeef:blurry:2.1.0'
-}
+
+

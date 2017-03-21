@@ -38,4 +38,5 @@ dependencies {
   compile rootProject.ext.libraries.glideOkHttpIntegration
 
   compile rootProject.ext.modules.imageloader
+  
 }

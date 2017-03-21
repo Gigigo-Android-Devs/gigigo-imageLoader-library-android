@@ -3,23 +3,43 @@ package com.gigigo.imageloader_demoapp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.CropTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.GrayscaleTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.MaskTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.BrightnessFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.ContrastFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.InvertFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.KuwaharaFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.PixelationFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.SepiaFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.SketchFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.SwirlFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.ToonFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.gpu.VignetteFilterTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
+
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +61,26 @@ public class MainActivity extends AppCompatActivity {
   private Button btnGlideAnimate;
   private Button btnGlideSizeMulptiplier;
   private Button btnGlideBlur;
+  private Button btnGlideCrop;
+  private Button btnGlideCropSquare;
+  private Button btnGlideCropCircle;
+  private Button btnGlideColorFilter;
+  private Button btnGlideGrayscale;
+  private Button btnGlideMask;
+  private Button btnGlideGPUToon;
+  private Button btnGlideGPUSepia;
+  private Button btnGLideGPUContrast;
+  private Button btnGLideGPUInvert;
+  private Button btnGLideGPUPixel;
+  private Button btnGLideGPUSketch;
+  private Button btnGLideGPUSwirl;
+  private Button btnGLideGPUBrightness;
+  private Button btnGLideGPUKuwahara;
+  private Button btnGLideGPUVignette;
+
+
+
+
 
   private ImageLoader imageLoader;
   private ImageView imageView;
@@ -49,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
 
-    btnGlideBlur = (Button) findViewById(R.id.button_glide_blur);
+
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
     btnGlideInto = (Button) findViewById(R.id.button_glide_into);
     btnGlideResource = (Button) findViewById(R.id.button_glide_resource);
@@ -59,6 +99,26 @@ public class MainActivity extends AppCompatActivity {
     btnGlideAnimate = (Button) findViewById(R.id.button_glide_animate);
     btnGlideSizeMulptiplier = (Button) findViewById(R.id.button_glide_size_multiplier);
     btnGlideError = (Button) findViewById(R.id.button_glide_error);
+
+    btnGlideBlur = (Button) findViewById(R.id.button_glide_blur);
+    btnGlideCrop = (Button) findViewById(R.id.button_glide_crop);
+    btnGlideCropSquare = (Button) findViewById(R.id.button_glide_crop_square);
+    btnGlideCropCircle = (Button) findViewById(R.id.button_glide_crop_circle);
+    btnGlideColorFilter = (Button) findViewById(R.id.button_glide_color_filter);
+    btnGlideColorFilter = (Button) findViewById(R.id.button_glide_color_filter);
+    btnGlideGrayscale = (Button) findViewById(R.id.button_glide_grayscale);
+    btnGlideMask = (Button) findViewById(R.id.button_glide_mask);
+
+    btnGlideGPUToon = (Button) findViewById(R.id.button_glide_gpu_toon_filter);
+    btnGlideGPUSepia = (Button) findViewById(R.id.button_glide_gpu_sepia_filter);
+    btnGLideGPUContrast = (Button) findViewById(R.id.button_glide_gpu_contrast_filter);
+    btnGLideGPUInvert = (Button) findViewById(R.id.button_glide_gpu_invert_filter);
+    btnGLideGPUPixel = (Button) findViewById(R.id.button_glide_gpu_pixel_filter);
+    btnGLideGPUSketch = (Button) findViewById(R.id.button_glide_gpu_sketch_filter);
+    btnGLideGPUSwirl = (Button) findViewById(R.id.button_glide_gpu_swirl_filter);
+    btnGLideGPUBrightness = (Button) findViewById(R.id.button_glide_gpu_brightness_filter);
+    btnGLideGPUKuwahara = (Button) findViewById(R.id.button_glide_gpu_kuwahara_filter);
+    btnGLideGPUVignette = (Button) findViewById(R.id.button_glide_gpu_vignette_filter);
 
     btnPicassoCallback = (Button) findViewById(R.id.button_picasso_callback);
     btnPicassoInto = (Button) findViewById(R.id.button_picasso_into);
@@ -74,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
     imageView = (ImageView) view.findViewById(R.id.imageview2);
 
     final Dialog dialog = onCreateDialog(view);
+
+
 
 
     btnGlideBlur.setOnClickListener(new View.OnClickListener() {
@@ -409,6 +471,286 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnPicassoCallback, url, Snackbar.LENGTH_SHORT).show();
 
         imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+
+    btnGlideGPUToon.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideGPUToon, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new ToonFilterTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideGPUSepia.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideGPUSepia, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new SepiaFilterTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUContrast.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUContrast, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new ContrastFilterTransformation(MainActivity.this, 2.0f))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUInvert.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUInvert, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new InvertFilterTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUPixel.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUPixel, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new PixelationFilterTransformation(MainActivity.this, 20))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUSketch.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUPixel, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new SketchFilterTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUSwirl.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUSwirl, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new SwirlFilterTransformation(MainActivity.this, 0.5f, 1.0f, new PointF(0.5f, 0.5f)))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUBrightness.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUBrightness, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new BrightnessFilterTransformation(MainActivity.this, 0.5f))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUKuwahara.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUKuwahara, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new KuwaharaFilterTransformation(MainActivity.this, 25))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGLideGPUVignette.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGLideGPUVignette, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new VignetteFilterTransformation(MainActivity.this, new PointF(0.5f, 0.5f),
+                new float[] { 0.0f, 0.0f, 0.0f }, 0f, 0.75f))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideCrop.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideCrop, url, Snackbar.LENGTH_SHORT).show();
+
+
+
+        imageLoader.load(url)
+            .transform(new CropTransformation(MainActivity.this,100,100))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideCropSquare.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideCropSquare, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new CropSquareTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideCropCircle.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideCropCircle, url, Snackbar.LENGTH_SHORT).show();
+
+
+        imageLoader.load(url)
+            .transform(new CropCircleTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideColorFilter.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideColorFilter, url, Snackbar.LENGTH_SHORT).show();
+
+
+        int color = Color.argb(255, 255, 175, 64);
+
+        imageLoader.load(url)
+            .transform(new ColorFilterTransformation(MainActivity.this, color))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideGrayscale.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideGrayscale, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new GrayscaleTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView)
+            .build();
+        dialog.show();
+      }
+    });
+
+    btnGlideMask.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideMask, url, Snackbar.LENGTH_SHORT).show();
+
+        imageLoader.load(url)
+            .transform(new MaskTransformation(MainActivity.this, R.drawable.ic_loading))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView)

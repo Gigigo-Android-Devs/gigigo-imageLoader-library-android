@@ -24,13 +24,6 @@
         android:orientation="vertical"
         >
 
-      <Button
-          android:id="@+id/button_glide_blur"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Glide Blur"
-          />
-
 
       <Button
           android:id="@+id/button_glide_into"
@@ -171,6 +164,124 @@
           android:text="Picasso Url error"
           />
 
+      <Button
+          android:id="@+id/button_glide_blur"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Blur"
+          />
+
+      <Button
+          android:id="@+id/button_glide_color_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Color Filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_crop"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Crop"
+          />
+
+      <Button
+          android:id="@+id/button_glide_crop_circle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Crop circle"
+          />
+
+      <Button
+          android:id="@+id/button_glide_crop_square"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Crop square"
+          />
+
+      <Button
+          android:id="@+id/button_glide_grayscale"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Grayscale"
+          />
+
+      <Button
+          android:id="@+id/button_glide_mask"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide Mask"
+          />
+
+
+      <Button
+          android:id="@+id/button_glide_gpu_toon_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Toon filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_sepia_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Sepia filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_contrast_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Contrast filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_invert_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Invert filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_pixel_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Pixel filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_sketch_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Sketch filter"
+          />
+      <Button
+          android:id="@+id/button_glide_gpu_swirl_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Swirl filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_brightness_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Brightness filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_kuwahara_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Kuwahara filter"
+          />
+
+      <Button
+          android:id="@+id/button_glide_gpu_vignette_filter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Glide GPU Vignette filter"
+          />
     </LinearLayout>
 
 

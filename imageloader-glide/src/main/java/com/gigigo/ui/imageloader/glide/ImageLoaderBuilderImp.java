@@ -51,11 +51,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     this.glide = Glide.with(context);
   }
 
-  @Override public ImageLoaderBuilder into(ImageView imageView) {
-    this.imageview = imageView;
-    return this;
-  }
-
   @Override public ImageLoaderBuilder placeholder(int placeholder) {
     placeholder(context.getResources().getDrawable(placeholder));
     return this;
@@ -89,11 +84,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback) {
-    this.imageLoaderCallback = imageLoaderCallback;
-    return this;
-  }
-
   @Override public ImageLoaderBuilder centerCrop(Boolean center) {
     this.centerCrop = center;
     return this;
@@ -119,7 +109,56 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public void build() {
+  @Override public void into(ImageView imageView) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    drawableRequestBuilder.into(imageview);
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+
+      @Override public void onLoadStarted(Drawable placeholder) {
+        super.onLoadStarted(placeholder);
+        imageLoaderCallback.onLoading();
+      }
+
+      @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
+        super.onLoadFailed(e, errorDrawable);
+        imageLoaderCallback.onError(errorDrawable);
+      }
+
+      @Override public void onResourceReady(GlideBitmapDrawable resource,
+          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+        imageLoaderCallback.onSuccess(resource.getBitmap());
+      }
+    });
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+
+      @Override public void onLoadStarted(Drawable placeholder) {
+        super.onLoadStarted(placeholder);
+        imageLoaderCallback.onLoading();
+      }
+
+      @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
+        super.onLoadFailed(e, errorDrawable);
+        imageLoaderCallback.onError(errorDrawable);
+      }
+
+      @Override public void onResourceReady(GlideBitmapDrawable resource,
+          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+        imageView.setImageBitmap(resource.getBitmap());
+        imageLoaderCallback.onSuccess(resource.getBitmap());
+
+      }
+    });
+  }
+
+  private DrawableRequestBuilder build() {
     DrawableTypeRequest drawableTypeRequest;
 
     if (!TextUtils.isEmpty(url)) {
@@ -127,7 +166,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     } else if (resourceId != 0) {
       drawableTypeRequest = glide.load(resourceId);
     } else {
-      return;
+      return null;
     }
 
     DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
@@ -160,28 +199,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
       drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
     }
 
-    if (imageview != null) {
-      drawableRequestBuilder.into(imageview);
-    } else if (imageLoaderCallback != null) {
-
-      drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
-
-        @Override public void onLoadStarted(Drawable placeholder) {
-          super.onLoadStarted(placeholder);
-          imageLoaderCallback.onLoading();
-        }
-
-        @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
-          super.onLoadFailed(e, errorDrawable);
-          imageLoaderCallback.onError(errorDrawable);
-        }
-
-        @Override public void onResourceReady(GlideBitmapDrawable resource,
-            GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
-          imageLoaderCallback.onSuccess(resource.getBitmap());
-        }
-      });
-    }
+    return drawableRequestBuilder;
   }
 
   @Override public void clearPreviousData() {

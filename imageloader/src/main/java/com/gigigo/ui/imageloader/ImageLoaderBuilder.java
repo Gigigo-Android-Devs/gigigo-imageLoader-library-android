@@ -5,7 +5,11 @@ import android.widget.ImageView;
 
 public interface ImageLoaderBuilder {
 
-  ImageLoaderBuilder into(ImageView imageView);
+  void into(ImageView imageView);
+
+  void into(ImageLoaderCallback imageLoaderCallback);
+
+  void into(ImageLoaderCallback imageLoaderCallback, ImageView imageView);
 
   ImageLoaderBuilder placeholder(int placeholder);
 
@@ -19,7 +23,7 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder transform(Object bitmapTransformation);
 
-  ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback);
+
 
   ImageLoaderBuilder centerCrop(Boolean centerCrop);
 
@@ -30,10 +34,6 @@ public interface ImageLoaderBuilder {
   ImageLoaderBuilder animate(Boolean animate);
 
   ImageLoaderBuilder sizeMultiplier(float sizeMultiplier);
-
-
-
-  void build();
 
   void clearPreviousData();
 }

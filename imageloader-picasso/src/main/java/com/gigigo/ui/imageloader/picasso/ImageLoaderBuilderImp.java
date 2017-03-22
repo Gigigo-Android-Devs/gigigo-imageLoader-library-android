@@ -45,10 +45,10 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     this.picasso = Picasso.with(context);
   }
 
-  @Override public ImageLoaderBuilder into(ImageView imageView) {
-    this.imageview = imageView;
-    return this;
-  }
+  //@Override public ImageLoaderBuilder into(ImageView imageView) {
+  //  this.imageview = imageView;
+  //  return this;
+  //}
 
   @Override public ImageLoaderBuilder placeholder(int placeholder) {
     placeholder(context.getResources().getDrawable(placeholder));
@@ -83,10 +83,10 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback) {
-    this.imageLoaderCallback = imageLoaderCallback;
-    return this;
-  }
+  //@Override public ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback) {
+  //  this.imageLoaderCallback = imageLoaderCallback;
+  //  return this;
+  //}
 
   @Override public ImageLoaderBuilder centerCrop(Boolean centerCrop) {
     this.centerCrop = centerCrop;
@@ -111,7 +111,49 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return null;
   }
 
-  @Override public void build() {
+  @Override public void into(ImageView imageView) {
+    RequestCreator requestCreator = build();
+    requestCreator.into(imageView);
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
+    RequestCreator requestCreator = build();
+    requestCreator.into(new Target() {
+
+          @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            imageLoaderCallback.onSuccess(bitmap);
+          }
+
+          @Override public void onBitmapFailed(Drawable errorDrawable) {
+            imageLoaderCallback.onError(errorDrawable);
+          }
+
+          @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+            imageLoaderCallback.onLoading();
+          }
+        });
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
+    RequestCreator requestCreator = build();
+    requestCreator.into(new Target() {
+
+      @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        imageView.setImageBitmap(bitmap);
+        imageLoaderCallback.onSuccess(bitmap);
+      }
+
+      @Override public void onBitmapFailed(Drawable errorDrawable) {
+        imageLoaderCallback.onError(errorDrawable);
+      }
+
+      @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+        imageLoaderCallback.onLoading();
+      }
+    });
+  }
+
+  private RequestCreator build() {
     RequestCreator requestCreator;
 
     if (!TextUtils.isEmpty(url)) {
@@ -119,7 +161,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     } else if (resourceId != 0) {
       requestCreator = picasso.load(resourceId);
     } else {
-      return;
+      return null;
     }
 
 
@@ -150,25 +192,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
       requestCreator = requestCreator.rotate(degrees);
     }
 
-
-    if (imageview != null) {
-      requestCreator.into(imageview);
-    } else if (imageLoaderCallback != null) {
-      requestCreator.into(new Target() {
-
-        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-          imageLoaderCallback.onSuccess(bitmap);
-        }
-
-        @Override public void onBitmapFailed(Drawable errorDrawable) {
-          imageLoaderCallback.onError(errorDrawable);
-        }
-
-        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
-          imageLoaderCallback.onLoading();
-        }
-      });
-    }
+    return requestCreator;
   }
 
   @Override public void clearPreviousData() {

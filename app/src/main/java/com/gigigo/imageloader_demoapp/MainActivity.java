@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import android.widget.Toast;
 import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
   private Button btnGLideGPUBrightness;
   private Button btnGLideGPUKuwahara;
   private Button btnGLideGPUVignette;
+  private Button btnTest;
 
 
 
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
 
+
+    btnTest = (Button) findViewById(R.id.button_test);
 
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
     btnGlideInto = (Button) findViewById(R.id.button_glide_into);
@@ -138,6 +142,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    btnTest.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        imageLoader.load(url).placeholder(R.drawable.ic_loading).into(new ImageLoaderCallback() {
+          @Override public void onSuccess(Bitmap bitmap) {
+            Toast.makeText(MainActivity.this, "onSucess", Toast.LENGTH_SHORT).show();//imageView.setImageBitmap(bitmap);
+          }
+
+          @Override public void onError(Drawable errorDrawable) {
+
+          }
+
+          @Override public void onLoading() {
+
+          }
+        });
+        dialog.show();
+      }
+    });
+
+
     btnGlideBlur.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
@@ -146,16 +173,12 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(btnGlideBlur, url, Snackbar.LENGTH_SHORT).show();
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url)
             .transform(new BlurTransformation(MainActivity.this, 40))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -172,8 +195,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -192,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getColor(android.R.color.black)))
             //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
 
-            .loaderCallback(new ImageLoaderCallback() {
+            .into(new ImageLoaderCallback() {
               @Override public void onSuccess(Bitmap bitmap) {
                 Snackbar.make(btnGlideCallback, "image Glide loaded!", Snackbar.LENGTH_SHORT)
                     .show();
@@ -209,8 +231,7 @@ public class MainActivity extends AppCompatActivity {
               @Override public void onLoading() {
                 imageView.setImageResource(R.drawable.ic_loading);
               }
-            })
-            .build();
+            });
       }
     });
 
@@ -223,8 +244,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(R.drawable.resourceimage)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -243,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
             //.transform(new GlideCircleTransformation(MainActivity.this, 12,
             //    getResources().getColor(android.R.color.black)))
             //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
-            .into(imageView).centerCrop(Boolean.TRUE).build();
+            .centerCrop(Boolean.TRUE).into(imageView);
         dialog.show();
       }
     });
@@ -258,8 +278,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .override(50, 50)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -274,9 +293,8 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
             .fitCenter(Boolean.TRUE)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -292,9 +310,8 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
             .animate(Boolean.TRUE)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -308,10 +325,9 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnGlideSizeMulptiplier, url, Snackbar.LENGTH_SHORT).show();
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
-            .into(imageView)
-            .sizeMultiplier(0.3f)
-            .build();
+            .error(R.drawable.errorimage)            .sizeMultiplier(0.3f)
+
+            .into(imageView);
         dialog.show();
       }
     });
@@ -328,8 +344,7 @@ public class MainActivity extends AppCompatActivity {
             .error(R.drawable.errorimage)
             .transform(new GlideCircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -345,8 +360,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -359,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnPicassoCallback, url, Snackbar.LENGTH_SHORT).show();
 
         //TODO: test it with circleimage
-        imageLoader.load(url).loaderCallback(new ImageLoaderCallback() {
+        imageLoader.load(url).into(new ImageLoaderCallback() {
           @Override public void onSuccess(Bitmap bitmap) {
             Snackbar.make(btnPicassoCallback, "image Picasso loaded!", Snackbar.LENGTH_SHORT)
                 .show();
@@ -375,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
           @Override public void onLoading() {
             imageView.setImageResource(R.drawable.ic_loading);
           }
-        }).build();
+        });
         dialog.show();
       }
     });
@@ -388,8 +402,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(R.drawable.resourceimage)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -405,10 +418,9 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
+
             .centerCrop(Boolean.TRUE)
-            .override(200, 200)
-            .build();
+            .override(200, 200).into(imageView);
         dialog.show();
       }
     });
@@ -423,8 +435,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .override(50, 50)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -439,10 +450,10 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
+
             .fitCenter(Boolean.TRUE)
             .override(500,500)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -456,9 +467,9 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
+
             .rotate(90)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -473,8 +484,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -491,8 +501,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new ToonFilterTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -508,8 +517,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new SepiaFilterTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -525,8 +533,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new ContrastFilterTransformation(MainActivity.this, 2.0f))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -542,8 +549,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new InvertFilterTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -559,8 +565,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new PixelationFilterTransformation(MainActivity.this, 20))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -576,8 +581,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new SketchFilterTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -593,8 +597,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new SwirlFilterTransformation(MainActivity.this, 0.5f, 1.0f, new PointF(0.5f, 0.5f)))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -610,8 +613,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new BrightnessFilterTransformation(MainActivity.this, 0.5f))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -627,8 +629,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new KuwaharaFilterTransformation(MainActivity.this, 25))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -645,8 +646,7 @@ public class MainActivity extends AppCompatActivity {
                 new float[] { 0.0f, 0.0f, 0.0f }, 0f, 0.75f))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -664,8 +664,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new CropTransformation(MainActivity.this,100,100))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -681,8 +680,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new CropSquareTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -699,8 +697,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new CropCircleTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -719,8 +716,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new ColorFilterTransformation(MainActivity.this, color))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -736,8 +732,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new GrayscaleTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });
@@ -753,8 +748,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new MaskTransformation(MainActivity.this, R.drawable.ic_loading))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .into(imageView)
-            .build();
+            .into(imageView);
         dialog.show();
       }
     });

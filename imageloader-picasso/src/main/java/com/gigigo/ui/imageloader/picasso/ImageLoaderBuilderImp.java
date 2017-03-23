@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
+import java.util.ArrayList;
 
 class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
@@ -30,7 +31,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private ImageLoaderCallback imageLoaderCallback;
 
-  private Transformation bitmapTransformation;
+  private ArrayList <Transformation> bitmapTransformation;
 
   private boolean centerCrop;
 
@@ -76,9 +77,13 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder transform(Object bitmapTransformation) {
-    if (bitmapTransformation instanceof Transformation) {
-      this.bitmapTransformation = (Transformation) bitmapTransformation;
+  @Override public ImageLoaderBuilder transform(Object... bitmapTransformations) {
+    bitmapTransformation = new ArrayList<>();
+    for (int i = 0; i < bitmapTransformations.length; i++) {
+      if (bitmapTransformations[i] instanceof  Transformation){
+        bitmapTransformation.add((Transformation) bitmapTransformations [i]);
+      }
+
     }
     return this;
   }
@@ -112,6 +117,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   }
 
   @Override public void into(ImageView imageView) {
+    this.imageview = imageView;
     RequestCreator requestCreator = build();
     requestCreator.into(imageView);
   }
@@ -178,7 +184,10 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     }
 
     if (bitmapTransformation != null) {
-      requestCreator = requestCreator.transform(bitmapTransformation);
+      for (int i = 0; i < bitmapTransformation.size(); i++){
+        requestCreator = requestCreator.transform(bitmapTransformation.get(i));
+      }
+
     }
 
     if (centerCrop){

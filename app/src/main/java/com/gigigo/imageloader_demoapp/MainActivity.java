@@ -41,7 +41,6 @@ import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
 import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
-
 public class MainActivity extends AppCompatActivity {
 
   private Button btnGlideInto;
@@ -80,17 +79,12 @@ public class MainActivity extends AppCompatActivity {
   private Button btnGLideGPUVignette;
   private Button btnTest;
 
-
-
-
-
   private ImageLoader imageLoader;
   private ImageView imageView;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
-
 
     btnTest = (Button) findViewById(R.id.button_test);
 
@@ -139,20 +133,22 @@ public class MainActivity extends AppCompatActivity {
 
     final Dialog dialog = onCreateDialog(view);
 
-
-
-
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
-        String url = DataGenerator.generateRandomImageUrl();
-
+        String url =
+            "http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
+        //DataGenerator.generateRandomImageUrl();
+        //https://upload-assets.vice.com/files/2016/07/06/1467830836GOT_ep_3_A_girl_has_no_name.gif
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
-            .transform(new BlurTransformation(MainActivity.this))
+            //.transform(new KuwaharaFilterTransformation(MainActivity.this, 25),
+            //    new SepiaFilterTransformation(MainActivity.this),
+            //    new GlideCircleTransformation(MainActivity.this, 12,
+            //        getResources().getColor(android.R.color.black)))
             .into(new ImageLoaderCallback() {
           @Override public void onSuccess(Bitmap bitmap) {
-            imageView.setImageBitmap(bitmap);
+            //imageView.setImageBitmap(bitmap);
 
           }
 
@@ -163,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
           @Override public void onLoading() {
 
           }
-        });
+        },imageView);
+
         dialog.show();
       }
     });
-
 
     btnGlideInto.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -185,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
       }
     });
-
-
 
     btnGlideCallback.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -287,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-
     btnGlideAnimate.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
@@ -313,7 +306,8 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnGlideSizeMulptiplier, url, Snackbar.LENGTH_SHORT).show();
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)            .sizeMultiplier(0.3f)
+            .error(R.drawable.errorimage)
+            .sizeMultiplier(0.3f)
 
             .into(imageView);
         dialog.show();
@@ -403,12 +397,9 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnPicassoInto, url, Snackbar.LENGTH_SHORT).show();
 
         //TODO: test it with circleimage
-        imageLoader.load(url)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
+        imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
-            .centerCrop(Boolean.TRUE)
-            .override(200, 200).into(imageView);
+            .centerCrop(Boolean.TRUE).override(200, 200).into(imageView);
         dialog.show();
       }
     });
@@ -435,13 +426,9 @@ public class MainActivity extends AppCompatActivity {
         String url = DataGenerator.generateRandomImageUrl();
 
         Snackbar.make(btnPicassoFitCenter, url, Snackbar.LENGTH_SHORT).show();
-        imageLoader.load(url)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
+        imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
-            .fitCenter(Boolean.TRUE)
-            .override(500,500)
-            .into(imageView);
+            .fitCenter(Boolean.TRUE).override(500, 500).into(imageView);
         dialog.show();
       }
     });
@@ -452,12 +439,9 @@ public class MainActivity extends AppCompatActivity {
         String url = DataGenerator.generateRandomImageUrl();
 
         Snackbar.make(btnPicassoRotate, url, Snackbar.LENGTH_SHORT).show();
-        imageLoader.load(url)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
+        imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
-            .rotate(90)
-            .into(imageView);
+            .rotate(90).into(imageView);
         dialog.show();
       }
     });
@@ -599,7 +583,8 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(btnGLideGPUSwirl, url, Snackbar.LENGTH_SHORT).show();
 
         imageLoader.load(url)
-            .transform(new SwirlFilterTransformation(MainActivity.this, 0.5f, 1.0f, new PointF(0.5f, 0.5f)))
+            .transform(new SwirlFilterTransformation(MainActivity.this, 0.5f, 1.0f,
+                new PointF(0.5f, 0.5f)))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
@@ -663,10 +648,8 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(btnGlideCrop, url, Snackbar.LENGTH_SHORT).show();
 
-
-
         imageLoader.load(url)
-            .transform(new CropTransformation(MainActivity.this,100,100))
+            .transform(new CropTransformation(MainActivity.this, 100, 100))
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
@@ -697,7 +680,6 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(btnGlideCropCircle, url, Snackbar.LENGTH_SHORT).show();
 
-
         imageLoader.load(url)
             .transform(new CropCircleTransformation(MainActivity.this))
             .placeholder(R.drawable.ic_loading)
@@ -713,7 +695,6 @@ public class MainActivity extends AppCompatActivity {
         String url = DataGenerator.generateRandomImageUrl();
 
         Snackbar.make(btnGlideColorFilter, url, Snackbar.LENGTH_SHORT).show();
-
 
         int color = Color.argb(255, 255, 175, 64);
 
@@ -775,7 +756,6 @@ public class MainActivity extends AppCompatActivity {
           }
         });
     return builder.create();
-
   }
 
   private void setGlideImageLoader() {

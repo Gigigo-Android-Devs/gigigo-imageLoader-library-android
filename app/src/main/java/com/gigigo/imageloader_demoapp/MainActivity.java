@@ -147,9 +147,13 @@ public class MainActivity extends AppCompatActivity {
         setGlideImageLoader();
         String url = DataGenerator.generateRandomImageUrl();
 
-        imageLoader.load(url).placeholder(R.drawable.ic_loading).into(new ImageLoaderCallback() {
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .transform(new BlurTransformation(MainActivity.this))
+            .into(new ImageLoaderCallback() {
           @Override public void onSuccess(Bitmap bitmap) {
-            Toast.makeText(MainActivity.this, "onSucess", Toast.LENGTH_SHORT).show();//imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
+
           }
 
           @Override public void onError(Drawable errorDrawable) {
@@ -164,24 +168,6 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-
-    btnGlideBlur.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-
-        setGlideImageLoader();
-        String url = DataGenerator.generateRandomImageUrl();
-
-        Snackbar.make(btnGlideBlur, url, Snackbar.LENGTH_SHORT).show();
-
-        //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
-        imageLoader.load(url)
-            .transform(new BlurTransformation(MainActivity.this, 40))
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.errorimage)
-            .into(imageView);
-        dialog.show();
-      }
-    });
 
     btnGlideInto.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -199,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
       }
     });
+
+
 
     btnGlideCallback.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -489,6 +477,23 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    btnGlideBlur.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+
+        setGlideImageLoader();
+        String url = DataGenerator.generateRandomImageUrl();
+
+        Snackbar.make(btnGlideBlur, url, Snackbar.LENGTH_SHORT).show();
+
+        //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
+        imageLoader.load(url)
+            .transform(new BlurTransformation(MainActivity.this, 40))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView);
+        dialog.show();
+      }
+    });
 
     btnGlideGPUToon.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {

@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 
-
-
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
   buildToolsVersion rootProject.ext.androidBuildToolsVersion
@@ -29,7 +27,6 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7
     incremental false //this is for do Clean pre any Build, do it 4 prevent Dagger no-true-errors
   }
-  buildToolsVersion '25.0.0'
 }
 
 dependencies {
@@ -38,5 +35,4 @@ dependencies {
   compile rootProject.ext.libraries.glideOkHttpIntegration
 
   compile rootProject.ext.modules.imageloader
-  
 }

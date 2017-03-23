@@ -16,10 +16,10 @@ buildscript {
 
 allprojects {
   ext {
-    androidCompileSdkVersion = 23
-    androidBuildToolsVersion = '23.0.0'
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = '25.0.0'
     androidMinSdkVersion = 11 // Changed from 10 to 11 because off Blurry library requirements
-    androidTargetSdkVersion = 23
+    androidTargetSdkVersion = 25
   }
 
   repositories {

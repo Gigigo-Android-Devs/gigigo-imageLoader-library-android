@@ -1,13 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gigigo.ui.imageloader.glide.blur_transformations">
 
-    package="com.gigigo.imageloader_glide_blur"
-    >
+  <application
+      android:allowBackup="true"
+      android:supportsRtl="true">
 
-    <application android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
->
-
-    </application>
+  </application>
 
 </manifest>

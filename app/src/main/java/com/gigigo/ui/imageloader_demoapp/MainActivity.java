@@ -1,4 +1,4 @@
-package com.gigigo.imageloader_demoapp;
+package com.gigigo.ui.imageloader_demoapp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

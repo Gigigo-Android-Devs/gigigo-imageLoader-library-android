@@ -10,12 +10,12 @@ import android.graphics.Shader;
 /**
  * Created by rui.alonso on 20/9/16.
  */
-public class PicassoCircleTransformation implements com.squareup.picasso.Transformation {
+public class CircleTransformation implements com.squareup.picasso.Transformation {
   private final int radius;
   private final int borderId;
   private final int colorId;
 
-  public PicassoCircleTransformation(int radius, int borderId, int colorId) {
+  public CircleTransformation(int radius, int borderId, int colorId) {
     this.radius = radius;
     this.borderId = borderId;
     this.colorId = colorId;

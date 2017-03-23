@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import android.widget.Toast;
 import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
 import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
@@ -38,7 +36,7 @@ import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.CircleTransformation;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
 
 
@@ -198,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url)
-            .transform(new GlideCircleTransformation(MainActivity.this, 12,
+            .transform(new CircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
             //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
 
@@ -330,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .transform(new GlideCircleTransformation(MainActivity.this, 12,
+            .transform(new CircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
             .into(imageView);
         dialog.show();

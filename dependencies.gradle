@@ -2,7 +2,7 @@ allprojects {
   ext {
     libraries = [androidSupportV7       : 'com.android.support:appcompat-v7:23.3.0',
                  androidSupportDesign   : 'com.android.support:design:23.3.0',
-                 androidConstraintLayout: 'com.android.support.constraint:constraint-layout:1.0.2',
+                 androidConstraintLayout: 'com.android.support.constraint:constraint-layout:1.0.0-alpha8',
 
                  okHttp                 : 'com.squareup.okhttp3:okhttp:3.4.1',
 

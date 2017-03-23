@@ -14,6 +14,8 @@ android:
   - extra-google-m2repository
   - sys-img-armeabi-v7a-android-23
   - extra-android-m2repository
+  licenses:
+  - 'android-sdk-license-.+'
 notifications:
   slack:
     secure: kHEUf6ScZYnz5h7n/OzODFNYePv00M/BCBkXGL3kVz2F7mBJw0emygvNsSOuarbKiBdpc5dgHnlpXKbocd6IXc9s++N+jLn5EfZJR9AWUfdZLP5VcOQf/uAI3EqgA3ry3SIZYwheNyrqL49dxnf8Vh/EZevKjU9gv1m29BJcmywKc0pxPMDiM9GSeMYtqbZCpsqOwkumGuggMlWhNE3ZKydHYKehQkwYxZhWhQAqJyUeJUHJSJ5pU92FI/CSXwDp6r2nBJEV5SwyfhzK4zRzS1KCaskfUhYk2IsMUmUzYvZw6FNS/WrfVraWhiC3vhFyT3QNpSQN5I42ejmLSMrEBdVIkZzaovGIWi7fZZP/8Oa7fF6CpRtc4mszRPIbwfWKWftpuK5aPyeNerZ8WrweC5Jecp8DdPQ+7LTq6Zs/njGO/U3mQlQW+FYE/3Rvb2iHx2nxju4Sx8QFR6XwEnmblJ9sIhu9i/NPKUXcs8APDMGzUs97pErF0bETpTKG+2e2EanoVAaknz88LHCeN02rwjh2R0q87hqOv8tY13QbKlp7seRxx42F1mgZ5fR/Ejq5zqnx3dv+t+drDnPTvqro7kMxDrgqozdvIx9OdbcJ9BG0V73vrBS2phKoPj8H7XMh0jeXcnAyMkeiNcCqn89jouTFt1nHUA9GBgepmXVLm8o=

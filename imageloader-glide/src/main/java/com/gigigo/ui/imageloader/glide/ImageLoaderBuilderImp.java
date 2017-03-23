@@ -1,6 +1,7 @@
 package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,16 +11,20 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.gigigo.ui.imageloader.ImageLoaderBuilder;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
+import java.util.ArrayList;
 
-class ImageLoaderBuilderImp implements ImageLoaderBuilder {
+ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private final Context context;
   private final RequestManager glide;
+   boolean isGifImage=false;
 
   int resourceId;
   String url;
@@ -36,7 +41,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private ImageLoaderCallback imageLoaderCallback;
 
-  private Transformation bitmapTransformation;
+  private ArrayList<Transformation> bitmapTransformation;
 
   private ImageView imageview;
 
@@ -77,9 +82,13 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder transform(Object bitmapTransformation) {
-    if (bitmapTransformation instanceof Transformation) {
-      this.bitmapTransformation = (Transformation) bitmapTransformation;
+  @Override public ImageLoaderBuilder transform(Object... bitmapTransformations) {
+    bitmapTransformation = new ArrayList<>();
+    for (int i = 0; i < bitmapTransformations.length; i++) {
+      if (bitmapTransformations[i] instanceof  Transformation){
+        bitmapTransformation.add((Transformation) bitmapTransformations[i]);
+      }
+
     }
     return this;
   }
@@ -110,14 +119,15 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   }
 
   @Override public void into(ImageView imageView) {
-    DrawableRequestBuilder drawableRequestBuilder = build();
     this.imageview=imageView;
+    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+
     drawableRequestBuilder.into(imageview);
   }
-
+   //GlideBitmapDrawable
   @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
-    DrawableRequestBuilder drawableRequestBuilder = build();
-    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+    drawableRequestBuilder.into(new SimpleTarget<Object>() {
 
       @Override public void onLoadStarted(Drawable placeholder) {
         super.onLoadStarted(placeholder);
@@ -129,16 +139,27 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
         imageLoaderCallback.onError(errorDrawable);
       }
 
-      @Override public void onResourceReady(GlideBitmapDrawable resource,
-          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
-        imageLoaderCallback.onSuccess(resource.getBitmap());
+      @Override public void onResourceReady(Object resource,
+          GlideAnimation<? super Object> glideAnimation) {
+        if(resource instanceof GifDrawable) {
+
+          imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
+        }
+        else
+        if(resource instanceof  GlideBitmapDrawable)
+        {
+
+          imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
+        }
+
       }
     });
   }
 
   @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
-    DrawableRequestBuilder drawableRequestBuilder = build();
-    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+    this.imageview=imageView;
+    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+    drawableRequestBuilder.into(new SimpleTarget<Object>() {
 
       @Override public void onLoadStarted(Drawable placeholder) {
         super.onLoadStarted(placeholder);
@@ -150,10 +171,21 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
         imageLoaderCallback.onError(errorDrawable);
       }
 
-      @Override public void onResourceReady(GlideBitmapDrawable resource,
-          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
-        imageView.setImageBitmap(resource.getBitmap());
-        imageLoaderCallback.onSuccess(resource.getBitmap());
+      @Override public void onResourceReady(Object resource,
+          GlideAnimation<? super Object> glideAnimation) {
+
+
+        if(resource instanceof GifDrawable) {
+          imageView.setImageDrawable((GifDrawable) resource);
+          imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
+        }
+        else
+          if(resource instanceof  GlideBitmapDrawable)
+          {
+            imageView.setImageBitmap(((GlideBitmapDrawable) resource).getBitmap());
+            imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
+          }
+
 
       }
     });
@@ -161,6 +193,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private DrawableRequestBuilder build() {
     DrawableTypeRequest drawableTypeRequest;
+    //glide.resumeRequests();
+    glide.resumeRequestsRecursive();
 
     if (!TextUtils.isEmpty(url)) {
       drawableTypeRequest = glide.load(url);
@@ -171,6 +205,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     }
 
     DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
+
+
 
     if (placeholder != null) {
       drawableRequestBuilder = drawableRequestBuilder.placeholder(placeholder);
@@ -185,7 +221,15 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     }
 
     if (bitmapTransformation != null) {
-      drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation);
+      Transformation[] bitmapTransformationsAux =new Transformation[ bitmapTransformation.size()];
+      for (int i = 0; i < bitmapTransformation.size(); i++){
+        //drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation.get(i));
+        bitmapTransformationsAux[i]=bitmapTransformation.get(i);
+      }
+      //drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformationsAux);
+
+
+
     }
     if (centerCrop){
       drawableRequestBuilder = drawableRequestBuilder.centerCrop();

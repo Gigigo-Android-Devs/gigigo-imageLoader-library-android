@@ -21,7 +21,7 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder override(int width, int height);
 
-  ImageLoaderBuilder transform(Object bitmapTransformation);
+  ImageLoaderBuilder transform(Object... bitmapTransformation);
 
 
 

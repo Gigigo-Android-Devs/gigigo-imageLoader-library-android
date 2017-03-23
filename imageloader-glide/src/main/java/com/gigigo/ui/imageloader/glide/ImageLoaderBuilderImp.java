@@ -111,6 +111,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   @Override public void into(ImageView imageView) {
     DrawableRequestBuilder drawableRequestBuilder = build();
+    this.imageview=imageView;
     drawableRequestBuilder.into(imageview);
   }
 

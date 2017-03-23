@@ -3,6 +3,7 @@ package com.gigigo.ui.imageloader.glide;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
@@ -29,20 +30,25 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private int width;
   private int height;
 
+  private float degrees;
+
+  private float sizeMultiplier;
+
   private ImageLoaderCallback imageLoaderCallback;
 
   private Transformation bitmapTransformation;
 
   private ImageView imageview;
 
+  private boolean centerCrop;
+
+  private boolean fitCenter;
+
+  private boolean animate;
+
   ImageLoaderBuilderImp(Context context) {
     this.context = context;
     this.glide = Glide.with(context);
-  }
-
-  @Override public ImageLoaderBuilder into(ImageView imageView) {
-    this.imageview = imageView;
-    return this;
   }
 
   @Override public ImageLoaderBuilder placeholder(int placeholder) {
@@ -78,12 +84,82 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder loaderCallback(ImageLoaderCallback imageLoaderCallback) {
-    this.imageLoaderCallback = imageLoaderCallback;
+  @Override public ImageLoaderBuilder centerCrop(Boolean center) {
+    this.centerCrop = center;
     return this;
   }
 
-  @Override public void build() {
+  @Override public ImageLoaderBuilder fitCenter(Boolean fitCenter) {
+    this.fitCenter = fitCenter;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder rotate(float degrees) {
+    this.degrees = degrees;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder animate(Boolean animate) {
+    this.animate = animate;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder sizeMultiplier(float sizeMultiplier) {
+    this.sizeMultiplier = sizeMultiplier;
+    return this;
+  }
+
+  @Override public void into(ImageView imageView) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    this.imageview=imageView;
+    drawableRequestBuilder.into(imageview);
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+
+      @Override public void onLoadStarted(Drawable placeholder) {
+        super.onLoadStarted(placeholder);
+        imageLoaderCallback.onLoading();
+      }
+
+      @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
+        super.onLoadFailed(e, errorDrawable);
+        imageLoaderCallback.onError(errorDrawable);
+      }
+
+      @Override public void onResourceReady(GlideBitmapDrawable resource,
+          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+        imageLoaderCallback.onSuccess(resource.getBitmap());
+      }
+    });
+  }
+
+  @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
+    DrawableRequestBuilder drawableRequestBuilder = build();
+    drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
+
+      @Override public void onLoadStarted(Drawable placeholder) {
+        super.onLoadStarted(placeholder);
+        imageLoaderCallback.onLoading();
+      }
+
+      @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
+        super.onLoadFailed(e, errorDrawable);
+        imageLoaderCallback.onError(errorDrawable);
+      }
+
+      @Override public void onResourceReady(GlideBitmapDrawable resource,
+          GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
+        imageView.setImageBitmap(resource.getBitmap());
+        imageLoaderCallback.onSuccess(resource.getBitmap());
+
+      }
+    });
+  }
+
+  private DrawableRequestBuilder build() {
     DrawableTypeRequest drawableTypeRequest;
 
     if (!TextUtils.isEmpty(url)) {
@@ -91,7 +167,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     } else if (resourceId != 0) {
       drawableTypeRequest = glide.load(resourceId);
     } else {
-      return;
+      return null;
     }
 
     DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
@@ -111,29 +187,20 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     if (bitmapTransformation != null) {
       drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation);
     }
-
-    if (imageview != null) {
-      drawableRequestBuilder.into(imageview);
-    } else if (imageLoaderCallback != null) {
-
-      drawableRequestBuilder.into(new SimpleTarget<GlideBitmapDrawable>() {
-
-        @Override public void onLoadStarted(Drawable placeholder) {
-          super.onLoadStarted(placeholder);
-          imageLoaderCallback.onLoading();
-        }
-
-        @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
-          super.onLoadFailed(e, errorDrawable);
-          imageLoaderCallback.onError(errorDrawable);
-        }
-
-        @Override public void onResourceReady(GlideBitmapDrawable resource,
-            GlideAnimation<? super GlideBitmapDrawable> glideAnimation) {
-          imageLoaderCallback.onSuccess(resource.getBitmap());
-        }
-      });
+    if (centerCrop){
+      drawableRequestBuilder = drawableRequestBuilder.centerCrop();
     }
+    if (fitCenter){
+      drawableRequestBuilder = drawableRequestBuilder.fitCenter();
+    }
+    if (animate){
+      drawableRequestBuilder = drawableRequestBuilder.animate(android.R.anim.slide_in_left);
+    }
+    if (sizeMultiplier > 0){
+      drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
+    }
+
+    return drawableRequestBuilder;
   }
 
   @Override public void clearPreviousData() {
@@ -151,5 +218,15 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     bitmapTransformation = null;
 
     imageview = null;
+
+    centerCrop = false;
+
+    fitCenter = false;
+
+    animate = false;
+
+    degrees = 0;
+
+    sizeMultiplier = 0;
   }
 }

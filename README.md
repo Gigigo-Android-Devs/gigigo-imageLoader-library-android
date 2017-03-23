@@ -2,11 +2,11 @@
 [![Build Status](https://travis-ci.org/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg?branch=master)](https://travis-ci.org/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg?branch=master)
 [![](https://jitpack.io/v/Gigigo-Android-Devs/gigigo-imageLoader-library-android.svg)](https://jitpack.io/#Gigigo-Android-Devs/gigigo-imageLoader-library-android)
 
-#Library wrapper to load images using Glide and Picasso libraries
+# Library wrapper to load images using Glide and Picasso libraries
 
 You can using this library like an Api Fluent. The syntax is equal to Glide library.
 
-###Example of use
+### Example of use
 
 To load Glide instance
 ```java
@@ -22,27 +22,44 @@ You can use the library (Picasso or Glide) with the same syntax and don't have t
 ```java
 imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.ic_loading)
-            .into(imageView)
-            .loaderCallback(new ImageLoaderCallback() {
-              @Override public void onFinish(boolean isSuccess) {
-
-                if (isSuccess) {
-                  Snackbar.make(buttonGlide, "image Glide loaded!", Snackbar.LENGTH_SHORT).show();
-                } else {
-                  Snackbar.make(buttonGlide, "image Glide error :(", Snackbar.LENGTH_SHORT).show();
-                }
-              }
-            })
-            .build();
+            .error(R.drawable.errorimage)
+            .into(imageView);
 ```
 
+With callback.
+
+```
+ imageLoader.load(url).into(new ImageLoaderCallback() {
+          @Override public void onSuccess(Bitmap bitmap) {
+          }
+          @Override public void onError(Drawable errorDrawable) {
+          }
+          @Override public void onLoading() {
+          }
+        });
+```
+
+
+You can use also transformations (Glide-Transformations, GPUImage-Transformations).
+
+```
+java
+imageLoader.load(url)
+            .transform(new GrayscaleTransformation(MainActivity.this))
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.errorimage)
+            .into(imageView);
+```
 
 You can use this library importing the glide or picasso dependency in your build.gradle file
 
 ```gradle
-compile('com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-glide:1.2.2')
-compile('com.github.Gigigo-Android-Devs.gigigo-imageLoader-library-android:imageloader-picasso:1.2.2')
+
+compile 'com.github.gigigo-Android-Devs:gigigo-imageLoader-library-android:imageloader-glide:2.0RC'
+compile 'com.github.gigigo-Android-Devs:gigigo-imageLoader-library-android:imageloader-picasso:2.0RC'
+compile 'com.github.gigigo-Android-Devs:gigigo-imageLoader-library-android:imageloader-glide-blur:2.0RC'
+compile 'com.github.gigigo-Android-Devs:gigigo-imageLoader-library-android:imageloader-glide-transformations:2.0RC'
+
 ```
 ### TODO
 - 

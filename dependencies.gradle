@@ -7,6 +7,9 @@ allprojects {
 
                  picasso                    : 'com.squareup.picasso:picasso:2.5.2',
                  glide                      : 'com.github.bumptech.glide:glide:3.7.0',
+                 glideTransformations       : 'jp.wasabeef:glide-transformations:2.0.2',
+                 gpuImage                   : 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1',
+
                  glideOkHttpIntegration     : 'com.github.bumptech.glide:okhttp-integration:1.4.0']
 
     testLibraries = [mockito          : 'org.mockito:mockito-core:2.0.31-beta',
@@ -17,6 +20,8 @@ allprojects {
 
     modules = [imageloader             : project(":imageloader"),
                imageloaderGlide        : project(":imageloader-glide"),
+               imageloaderGlideBlur        : project(":imageloader-glide-blur"),
+               imageloaderGlideBlurTransformations        : project(":imageloader-glide-transformations"),
                imageloaderPicasso      : project(":imageloader-picasso")]
   }
 }

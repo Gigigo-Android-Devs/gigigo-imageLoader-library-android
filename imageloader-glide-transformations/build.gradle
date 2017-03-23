@@ -1,17 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
+
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
   buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
   defaultConfig {
-    applicationId "com.gigigo.imageloader_demoapp"
     minSdkVersion rootProject.ext.androidMinSdkVersion
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
 
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     release {
@@ -34,14 +34,12 @@ android {
 
 dependencies {
   compile rootProject.ext.libraries.androidSupportV7
-  compile rootProject.ext.libraries.androidSupportDesign
-  compile rootProject.ext.modules.imageloaderGlide
-  compile rootProject.ext.modules.imageloaderPicasso
-  compile rootProject.ext.modules.imageloaderGlideBlur
-  compile rootProject.ext.modules.imageloaderGlideBlurTransformations
+  compile rootProject.ext.libraries.glide
+  compile rootProject.ext.libraries.glideOkHttpIntegration
 
+  compile rootProject.ext.modules.imageloader
 
-
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
+  compile rootProject.ext.libraries.glideTransformations
+  compile rootProject.ext.libraries.gpuImage
 }
+

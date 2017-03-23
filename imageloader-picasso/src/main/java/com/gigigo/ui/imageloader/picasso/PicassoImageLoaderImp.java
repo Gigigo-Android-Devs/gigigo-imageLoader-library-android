@@ -30,4 +30,5 @@ public class PicassoImageLoaderImp extends ImageLoaderBuilderImp implements Imag
     this.url = url;
     return this;
   }
+
 }

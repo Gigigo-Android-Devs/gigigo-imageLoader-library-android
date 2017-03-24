@@ -34,9 +34,8 @@ android {
 dependencies {
   compile rootProject.ext.libraries.androidSupportV7
   compile rootProject.ext.libraries.androidSupportDesign
-  compile rootProject.ext.libraries.androidConstraintLayout
   compile rootProject.ext.modules.imageloaderGlide
   compile rootProject.ext.modules.imageloaderPicasso
-  compile rootProject.ext.modules.imageloaderGlideBlur
+  compile rootProject.ext.modules.imageloaderGlideTransformationsBlur
   compile rootProject.ext.modules.imageloaderGlideTransformations
 }

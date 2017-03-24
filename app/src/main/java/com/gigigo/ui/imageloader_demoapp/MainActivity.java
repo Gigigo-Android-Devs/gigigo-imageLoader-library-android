@@ -80,10 +80,43 @@ public class MainActivity extends AppCompatActivity {
   private ImageLoader imageLoader;
   private ImageView imageView;
 
+  private Dialog imageDialog;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
 
+    LayoutInflater inflater = getLayoutInflater();
+    View view = inflater.inflate(R.layout.dialog_image, null);
+    imageView = (ImageView) view.findViewById(R.id.imageview2);
+
+    imageDialog = createImageDialog(view);
+
+    createButtons();
+  }
+
+  private Dialog createImageDialog(View view) {
+    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+    // Get the layout inflater
+
+    // Inflate and set the layout for the imageDialog
+    // Pass null as the parent view because its going in the imageDialog layout
+    dialogBuilder.setView(view)
+        // Add action buttons
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+
+          }
+        });
+    return dialogBuilder.create();
+  }
+
+  private void createButtons() {
+    findButtons();
+    setClickButtons();
+  }
+
+  private void findButtons() {
     btnTest = (Button) findViewById(R.id.button_test);
 
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
@@ -124,13 +157,9 @@ public class MainActivity extends AppCompatActivity {
     btnPicassoOverride = (Button) findViewById(R.id.button_picasso_override);
     btnPicassoFitCenter = (Button) findViewById(R.id.button_picasso_fit_center);
     btnPicassoRotate = (Button) findViewById(R.id.button_picasso_rotate);
+  }
 
-    LayoutInflater inflater = getLayoutInflater();
-    View view = inflater.inflate(R.layout.dialog_image, null);
-    imageView = (ImageView) view.findViewById(R.id.imageview2);
-
-    final Dialog dialog = onCreateDialog(view);
-
+  private void setClickButtons() {
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
@@ -145,21 +174,21 @@ public class MainActivity extends AppCompatActivity {
             //    new GlideCircleTransformation(MainActivity.this, 12,
             //        getResources().getColor(android.R.color.black)))
             .into(new ImageLoaderCallback() {
-          @Override public void onSuccess(Bitmap bitmap) {
-            //imageView.setImageBitmap(bitmap);
+              @Override public void onSuccess(Bitmap bitmap) {
+                //imageView.setImageBitmap(bitmap);
 
-          }
+              }
 
-          @Override public void onError(Drawable errorDrawable) {
+              @Override public void onError(Drawable errorDrawable) {
 
-          }
+              }
 
-          @Override public void onLoading() {
+              @Override public void onLoading() {
 
-          }
-        },imageView);
+              }
+            },imageView);
 
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -176,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -199,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(btnGlideCallback, "image Glide loaded!", Snackbar.LENGTH_SHORT)
                     .show();
                 imageView.setImageBitmap(bitmap);
-                dialog.show();
+                imageDialog.show();
               }
 
               @Override public void onError(Drawable errorDrawable) {
@@ -225,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -244,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             //    getResources().getColor(android.R.color.black)))
             //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
             .centerCrop(Boolean.TRUE).into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -259,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             .error(R.drawable.errorimage)
             .override(50, 50)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -275,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
             .error(R.drawable.errorimage)
             .fitCenter(Boolean.TRUE)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -291,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
             .error(R.drawable.errorimage)
             .animate(Boolean.TRUE)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -308,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             .sizeMultiplier(0.3f)
 
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -325,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
             .transform(new CircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -341,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -370,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageResource(R.drawable.ic_loading);
           }
         });
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -383,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -398,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
             .centerCrop(Boolean.TRUE).override(200, 200).into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -413,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
             .error(R.drawable.errorimage)
             .override(50, 50)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -427,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
             .fitCenter(Boolean.TRUE).override(500, 500).into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -440,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
             .rotate(90).into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -455,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -473,7 +502,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -489,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -505,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -521,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -537,7 +566,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -553,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -569,7 +598,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -586,7 +615,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -602,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -618,7 +647,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -635,7 +664,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -651,7 +680,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -667,7 +696,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -683,7 +712,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -701,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -717,7 +746,7 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
 
@@ -733,27 +762,9 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .into(imageView);
-        dialog.show();
+        imageDialog.show();
       }
     });
-
-    //End onCreate
-  }
-
-  public Dialog onCreateDialog(View view) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    // Get the layout inflater
-
-    // Inflate and set the layout for the dialog
-    // Pass null as the parent view because its going in the dialog layout
-    builder.setView(view)
-        // Add action buttons
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-
-          }
-        });
-    return builder.create();
   }
 
   private void setGlideImageLoader() {

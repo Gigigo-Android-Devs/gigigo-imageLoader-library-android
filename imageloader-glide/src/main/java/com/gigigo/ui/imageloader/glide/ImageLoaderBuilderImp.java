@@ -53,6 +53,9 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private boolean animate;
 
+
+  GifRequestBuilder mGifRequest = null;
+
   ImageLoaderBuilderImp(Context context) {
     this.context = context;
     this.glide = Glide.with(context);
@@ -120,82 +123,65 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   }
 
   @Override public void into(ImageView imageView) {
-    this.imageview = imageView;
-    DrawableRequestBuilder drawableRequestBuilder =
-        build().diskCacheStrategy(DiskCacheStrategy.NONE);
+    into(null,imageView);
 
-    drawableRequestBuilder.into(imageview);
   }
 
-  //GlideBitmapDrawable
-  @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
-    DrawableRequestBuilder drawableRequestBuilder =
-        build().diskCacheStrategy(DiskCacheStrategy.NONE);
-    drawableRequestBuilder.into(new SimpleTarget<Object>() {
-
-      @Override public void onLoadStarted(Drawable placeholder) {
-        super.onLoadStarted(placeholder);
-        imageLoaderCallback.onLoading();
-      }
-
-      @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
-        super.onLoadFailed(e, errorDrawable);
-        imageLoaderCallback.onError(errorDrawable);
-      }
-
-      @Override
-      public void onResourceReady(Object resource, GlideAnimation<? super Object> glideAnimation) {
-        if (resource instanceof GifDrawable) {
-
-          imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
-        } else if (resource instanceof GlideBitmapDrawable) {
-
-          imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
-        }
-      }
-    });
+  @Override public void into(ImageLoaderCallback imageLoaderCallback) {
+    into(imageLoaderCallback,null);
   }
 
-  @Override
+
   public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
     this.imageview = imageView;
     DrawableRequestBuilder drawableRequestBuilder =
-        build().diskCacheStrategy(DiskCacheStrategy.SOURCE) ;
-
+        build().diskCacheStrategy(DiskCacheStrategy.NONE);
 
     drawableRequestBuilder.into(new SimpleTarget<Object>() {
 
       @Override public void onLoadStarted(Drawable placeholder) {
         super.onLoadStarted(placeholder);
-        imageLoaderCallback.onLoading();
+        if (imageLoaderCallback != null) {
+          imageLoaderCallback.onLoading();
+        }
       }
 
       @Override public void onLoadFailed(Exception e, Drawable errorDrawable) {
         super.onLoadFailed(e, errorDrawable);
-        imageLoaderCallback.onError(errorDrawable);
+        if (imageLoaderCallback != null) {
+          imageLoaderCallback.onError(errorDrawable);
+        }
+
       }
 
       @Override
       public void onResourceReady(Object resource, GlideAnimation<? super Object> glideAnimation) {
+        if (imageLoaderCallback == null) {
+          if (resource instanceof GifDrawable) {
+            mGifRequest.into(imageView);
+          } else if (resource instanceof GlideBitmapDrawable) {
+            imageView.setImageDrawable((GlideBitmapDrawable) resource);
+          }
+        } else if (imageView == null) {
+          if (resource instanceof GifDrawable) {
+            imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
+          } else if (resource instanceof GlideBitmapDrawable) {
 
-        if (resource instanceof GifDrawable) {
-        //  imageView.setImageDrawable((GifDrawable) resource);
-          mGifRequest.into(imageView); //asv this is the way
-             // build().into(imageView);
-          imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
-        } else if (resource instanceof GlideBitmapDrawable) {
-          //imageView.setImageDrawable(((GlideBitmapDrawable) resource));
-          imageView.setImageBitmap(((GlideBitmapDrawable) resource).getBitmap());
-          imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
+            imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
+          }
+        } else {
+          if (resource instanceof GifDrawable) {
+            mGifRequest.into(imageView);
+            imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
+          } else if (resource instanceof GlideBitmapDrawable) {
+            imageView.setImageBitmap(((GlideBitmapDrawable) resource).getBitmap());
+            imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
+          }
         }
       }
     });
-
-
-   //  mGifRequest.into(imageView);
-
   }
-  GifRequestBuilder mGifRequest=null;
+
   private DrawableRequestBuilder build() {
     DrawableTypeRequest drawableTypeRequest;
 
@@ -209,7 +195,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
       return null;
     }
     GifTypeRequest gifTypeRequest = drawableTypeRequest.asGif();
-    mGifRequest = gifTypeRequest.clone(); //asv esta es la clave para que sea posible cargar gif
+    mGifRequest = gifTypeRequest.clone();
+
     DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
 
     if (placeholder != null) {

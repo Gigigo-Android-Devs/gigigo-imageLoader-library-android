@@ -1,4 +1,4 @@
-package com.gigigo.ui.imageloader.glide.transformations;
+package com.gigigo.ui.transformations;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 
-public class RoundedCornersTransformation2 implements Transformation<Bitmap> {
+public class RoundedCornersTransformation implements Transformation<Bitmap> {
 
   public enum CornerType {
     ALL,
@@ -29,20 +29,20 @@ public class RoundedCornersTransformation2 implements Transformation<Bitmap> {
   private int mMargin;
   private CornerType mCornerType;
 
-  public RoundedCornersTransformation2(Context context, int radius, int margin) {
+  public RoundedCornersTransformation(Context context, int radius, int margin) {
     this(context, radius, margin, CornerType.ALL);
   }
 
-  public RoundedCornersTransformation2(BitmapPool pool, int radius, int margin) {
+  public RoundedCornersTransformation(BitmapPool pool, int radius, int margin) {
     this(pool, radius, margin, CornerType.ALL);
   }
 
-  public RoundedCornersTransformation2(Context context, int radius, int margin,
+  public RoundedCornersTransformation(Context context, int radius, int margin,
       CornerType cornerType) {
     this(Glide.get(context).getBitmapPool(), radius, margin, cornerType);
   }
 
-  public RoundedCornersTransformation2(BitmapPool pool, int radius, int margin,
+  public RoundedCornersTransformation(BitmapPool pool, int radius, int margin,
       CornerType cornerType) {
     mBitmapPool = pool;
     mRadius = radius;

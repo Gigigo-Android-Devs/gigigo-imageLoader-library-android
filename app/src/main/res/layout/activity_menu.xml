@@ -33,6 +33,19 @@
           />
 
       <Button
+          android:id="@+id/button_gif_into"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Gif into"
+          />
+      <Button
+          android:id="@+id/button_gif_into_callback"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Gif into callback"
+          />
+
+      <Button
           android:id="@+id/button_glide_into"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

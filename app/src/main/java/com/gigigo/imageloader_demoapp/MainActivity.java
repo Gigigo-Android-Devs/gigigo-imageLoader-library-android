@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation2;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
+import com.gigigo.ui.transformations.GlideCircleTransformation;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.ColorFilterTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -37,24 +37,6 @@ import jp.wasabeef.glide.transformations.gpu.SwirlFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.VignetteFilterTransformation;
 
-//import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.CropTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation2;
-//import com.gigigo.ui.imageloader.glide.transformations.GrayscaleTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.MaskTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.BrightnessFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.ContrastFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.InvertFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.KuwaharaFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.PixelationFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.SepiaFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.SketchFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.SwirlFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.ToonFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.gpu.VignetteFilterTransformation;
-//import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
   private Button btnGLideGPUBrightness;
   private Button btnGLideGPUKuwahara;
   private Button btnGLideGPUVignette;
+
+  private Button btnGifInto;
+  private Button btnGifIntoCallback;
+
   private Button btnTest;
 
   private ImageLoader imageLoader;
@@ -103,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
     //region getviews
     btnTest = (Button) findViewById(R.id.button_test);
+
+
+    btnGifInto = (Button) findViewById(R.id.button_gif_into);
+    btnGifIntoCallback = (Button) findViewById(R.id.button_gif_into_callback);
 
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
     btnGlideInto = (Button) findViewById(R.id.button_glide_into);
@@ -167,11 +157,34 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .transform(new KuwaharaFilterTransformation(MainActivity.this, 25),
                 new SepiaFilterTransformation(MainActivity.this),
-                new GlideCircleTransformation2(MainActivity.this, 12,
+                new GlideCircleTransformation(MainActivity.this, 12,
                     getResources().getColor(android.R.color.black)))
+
+           .into(imageView);
+
+        dialog.show();
+      }
+    });
+
+    btnGifInto.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = "http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
+            .into(imageView);
+        dialog.show();
+      }
+    });
+
+    btnGifIntoCallback.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        setGlideImageLoader();
+        String url = "http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
+        imageLoader.load(url)
+            .placeholder(R.drawable.ic_loading)
             .into(new ImageLoaderCallback() {
               @Override public void onSuccess(Bitmap bitmap) {
-                //imageView.setImageBitmap(bitmap);
 
               }
 
@@ -183,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
 
               }
             }, imageView);
-
         dialog.show();
       }
     });
+
 
     btnGlideInto.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -215,9 +228,9 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url)
-            .transform(new GlideCircleTransformation2(MainActivity.this, 12,
+            .transform(new GlideCircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
-            //.transform(new RoundedCornersTransformation2(MainActivity.this, 20, 20))
+            //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
 
             .into(new ImageLoaderCallback() {
               @Override public void onSuccess(Bitmap bitmap) {
@@ -265,9 +278,9 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
-            //.transform(new GlideCircleTransformation2(MainActivity.this, 12,
+            //.transform(new GlideCircleTransformation(MainActivity.this, 12,
             //    getResources().getColor(android.R.color.black)))
-            //.transform(new RoundedCornersTransformation2(MainActivity.this, 20, 20))
+            //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
             .centerCrop(Boolean.TRUE).into(imageView);
         dialog.show();
       }
@@ -347,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .transform(new GlideCircleTransformation2(MainActivity.this, 12,
+            .transform(new GlideCircleTransformation(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
             .into(imageView);
         dialog.show();

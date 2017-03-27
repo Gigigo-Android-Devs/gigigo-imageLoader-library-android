@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.GifRequestBuilder;
+import com.bumptech.glide.GifTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.Transformation;
@@ -20,11 +22,11 @@ import com.gigigo.ui.imageloader.ImageLoaderBuilder;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import java.util.ArrayList;
 
- class ImageLoaderBuilderImp implements ImageLoaderBuilder {
+class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private final Context context;
   private final RequestManager glide;
-   boolean isGifImage=false;
+  boolean isGifImage = false;
 
   int resourceId;
   String url;
@@ -85,10 +87,9 @@ import java.util.ArrayList;
   @Override public ImageLoaderBuilder transform(Object... bitmapTransformations) {
     bitmapTransformation = new ArrayList<>();
     for (int i = 0; i < bitmapTransformations.length; i++) {
-      if (bitmapTransformations[i] instanceof  Transformation){
+      if (bitmapTransformations[i] instanceof Transformation) {
         bitmapTransformation.add((Transformation) bitmapTransformations[i]);
       }
-
     }
     return this;
   }
@@ -119,14 +120,17 @@ import java.util.ArrayList;
   }
 
   @Override public void into(ImageView imageView) {
-    this.imageview=imageView;
-    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+    this.imageview = imageView;
+    DrawableRequestBuilder drawableRequestBuilder =
+        build().diskCacheStrategy(DiskCacheStrategy.NONE);
 
     drawableRequestBuilder.into(imageview);
   }
-   //GlideBitmapDrawable
+
+  //GlideBitmapDrawable
   @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
-    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+    DrawableRequestBuilder drawableRequestBuilder =
+        build().diskCacheStrategy(DiskCacheStrategy.NONE);
     drawableRequestBuilder.into(new SimpleTarget<Object>() {
 
       @Override public void onLoadStarted(Drawable placeholder) {
@@ -139,26 +143,26 @@ import java.util.ArrayList;
         imageLoaderCallback.onError(errorDrawable);
       }
 
-      @Override public void onResourceReady(Object resource,
-          GlideAnimation<? super Object> glideAnimation) {
-        if(resource instanceof GifDrawable) {
+      @Override
+      public void onResourceReady(Object resource, GlideAnimation<? super Object> glideAnimation) {
+        if (resource instanceof GifDrawable) {
 
           imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
-        }
-        else
-        if(resource instanceof  GlideBitmapDrawable)
-        {
+        } else if (resource instanceof GlideBitmapDrawable) {
 
           imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
         }
-
       }
     });
   }
 
-  @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
-    this.imageview=imageView;
-    DrawableRequestBuilder drawableRequestBuilder = build().diskCacheStrategy(DiskCacheStrategy.NONE);
+  @Override
+  public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
+    this.imageview = imageView;
+    DrawableRequestBuilder drawableRequestBuilder =
+        build().diskCacheStrategy(DiskCacheStrategy.SOURCE) ;
+
+
     drawableRequestBuilder.into(new SimpleTarget<Object>() {
 
       @Override public void onLoadStarted(Drawable placeholder) {
@@ -171,29 +175,30 @@ import java.util.ArrayList;
         imageLoaderCallback.onError(errorDrawable);
       }
 
-      @Override public void onResourceReady(Object resource,
-          GlideAnimation<? super Object> glideAnimation) {
+      @Override
+      public void onResourceReady(Object resource, GlideAnimation<? super Object> glideAnimation) {
 
-
-        if(resource instanceof GifDrawable) {
-          imageView.setImageDrawable((GifDrawable) resource);
+        if (resource instanceof GifDrawable) {
+        //  imageView.setImageDrawable((GifDrawable) resource);
+          mGifRequest.into(imageView); //asv this is the way
+             // build().into(imageView);
           imageLoaderCallback.onSuccess(((GifDrawable) resource).getFirstFrame());
+        } else if (resource instanceof GlideBitmapDrawable) {
+          //imageView.setImageDrawable(((GlideBitmapDrawable) resource));
+          imageView.setImageBitmap(((GlideBitmapDrawable) resource).getBitmap());
+          imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
         }
-        else
-          if(resource instanceof  GlideBitmapDrawable)
-          {
-            imageView.setImageBitmap(((GlideBitmapDrawable) resource).getBitmap());
-            imageLoaderCallback.onSuccess(((GlideBitmapDrawable) resource).getBitmap());
-          }
-
-
       }
     });
-  }
 
+
+   //  mGifRequest.into(imageView);
+
+  }
+  GifRequestBuilder mGifRequest=null;
   private DrawableRequestBuilder build() {
     DrawableTypeRequest drawableTypeRequest;
-    //glide.resumeRequests();
+
     glide.resumeRequestsRecursive();
 
     if (!TextUtils.isEmpty(url)) {
@@ -203,10 +208,9 @@ import java.util.ArrayList;
     } else {
       return null;
     }
-
+    GifTypeRequest gifTypeRequest = drawableTypeRequest.asGif();
+    mGifRequest = gifTypeRequest.clone(); //asv esta es la clave para que sea posible cargar gif
     DrawableRequestBuilder drawableRequestBuilder = drawableTypeRequest.clone();
-
-
 
     if (placeholder != null) {
       drawableRequestBuilder = drawableRequestBuilder.placeholder(placeholder);
@@ -221,26 +225,22 @@ import java.util.ArrayList;
     }
 
     if (bitmapTransformation != null) {
-      Transformation[] bitmapTransformationsAux =new Transformation[ bitmapTransformation.size()];
-      for (int i = 0; i < bitmapTransformation.size(); i++){
-        //drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformation.get(i));
-        bitmapTransformationsAux[i]=bitmapTransformation.get(i);
+      Transformation[] bitmapTransformationsAux = new Transformation[bitmapTransformation.size()];
+      for (int i = 0; i < bitmapTransformation.size(); i++) {
+        bitmapTransformationsAux[i] = bitmapTransformation.get(i);
       }
-      //drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformationsAux);
-
-
-
+      drawableRequestBuilder = drawableRequestBuilder.bitmapTransform(bitmapTransformationsAux);
     }
-    if (centerCrop){
+    if (centerCrop) {
       drawableRequestBuilder = drawableRequestBuilder.centerCrop();
     }
-    if (fitCenter){
+    if (fitCenter) {
       drawableRequestBuilder = drawableRequestBuilder.fitCenter();
     }
-    if (animate){
+    if (animate) {
       drawableRequestBuilder = drawableRequestBuilder.animate(android.R.anim.slide_in_left);
     }
-    if (sizeMultiplier > 0){
+    if (sizeMultiplier > 0) {
       drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
     }
 

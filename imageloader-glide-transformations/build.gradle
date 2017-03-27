@@ -41,5 +41,8 @@ dependencies {
 
   compile rootProject.ext.libraries.glideTransformations
   compile rootProject.ext.libraries.gpuImage
+
+ // compile  'jp.wasabeef:glide-transformations:2.0.2'
+//  compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }
 

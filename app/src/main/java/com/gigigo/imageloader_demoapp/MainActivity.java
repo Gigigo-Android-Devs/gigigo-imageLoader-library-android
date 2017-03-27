@@ -5,41 +5,56 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import android.widget.Toast;
-import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.CropTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.GrayscaleTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.MaskTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.BrightnessFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.ContrastFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.InvertFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.KuwaharaFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.PixelationFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.SepiaFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.SketchFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.SwirlFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.ToonFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.gpu.VignetteFilterTransformation;
-import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
-
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
-import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation;
+import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation2;
 import com.gigigo.ui.imageloader.picasso.PicassoImageLoaderImp;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.CropSquareTransformation;
+import jp.wasabeef.glide.transformations.CropTransformation;
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
+import jp.wasabeef.glide.transformations.MaskTransformation;
+import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.ContrastFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.InvertFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.KuwaharaFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.PixelationFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.SepiaFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.SwirlFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.VignetteFilterTransformation;
+
+//import com.gigigo.ui.imageloader.glide.transformations.ColorFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.CropCircleTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.CropSquareTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.CropTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.GlideCircleTransformation2;
+//import com.gigigo.ui.imageloader.glide.transformations.GrayscaleTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.MaskTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.BrightnessFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.ContrastFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.InvertFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.KuwaharaFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.PixelationFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.SepiaFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.SketchFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.SwirlFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.ToonFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.gpu.VignetteFilterTransformation;
+//import com.gigigo.ui.imageloader.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_menu);
 
+    //region getviews
     btnTest = (Button) findViewById(R.id.button_test);
 
     btnGlideCallback = (Button) findViewById(R.id.button_glide_callback);
@@ -130,36 +146,43 @@ public class MainActivity extends AppCompatActivity {
     LayoutInflater inflater = getLayoutInflater();
     View view = inflater.inflate(R.layout.dialog_image, null);
     imageView = (ImageView) view.findViewById(R.id.imageview2);
+    //endregion
 
     final Dialog dialog = onCreateDialog(view);
 
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
-        String url =
-            "http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
-        //DataGenerator.generateRandomImageUrl();
-        //https://upload-assets.vice.com/files/2016/07/06/1467830836GOT_ep_3_A_girl_has_no_name.gif
+
+        //chamo ahora aplicar la misma tactica en el resto de intos, si es un gif necesitamos el imageview
+        //    ya q glide necesita hacer sus historias internamente para reproducir la animation gif
+
+        //si la imagen es gif , no hay transformacion
+        //puede cargar gif o imagen estandar
+
+        String url = DataGenerator.generateRandomImageUrl();
+        //"http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
+        //gif enormico--->"https://upload-assets.vice.com/files/2016/07/06/1467830836GOT_ep_3_A_girl_has_no_name.gif";
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
-            //.transform(new KuwaharaFilterTransformation(MainActivity.this, 25),
-            //    new SepiaFilterTransformation(MainActivity.this),
-            //    new GlideCircleTransformation(MainActivity.this, 12,
-            //        getResources().getColor(android.R.color.black)))
+            .transform(new KuwaharaFilterTransformation(MainActivity.this, 25),
+                new SepiaFilterTransformation(MainActivity.this),
+                new GlideCircleTransformation2(MainActivity.this, 12,
+                    getResources().getColor(android.R.color.black)))
             .into(new ImageLoaderCallback() {
-          @Override public void onSuccess(Bitmap bitmap) {
-            //imageView.setImageBitmap(bitmap);
+              @Override public void onSuccess(Bitmap bitmap) {
+                //imageView.setImageBitmap(bitmap);
 
-          }
+              }
 
-          @Override public void onError(Drawable errorDrawable) {
+              @Override public void onError(Drawable errorDrawable) {
 
-          }
+              }
 
-          @Override public void onLoading() {
+              @Override public void onLoading() {
 
-          }
-        },imageView);
+              }
+            }, imageView);
 
         dialog.show();
       }
@@ -192,9 +215,9 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url)
-            .transform(new GlideCircleTransformation(MainActivity.this, 12,
+            .transform(new GlideCircleTransformation2(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
-            //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
+            //.transform(new RoundedCornersTransformation2(MainActivity.this, 20, 20))
 
             .into(new ImageLoaderCallback() {
               @Override public void onSuccess(Bitmap bitmap) {
@@ -242,9 +265,9 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Download more transformations: https://github.com/wasabeef/glide-transformations
         imageLoader.load(url).placeholder(R.drawable.ic_loading).error(R.drawable.errorimage)
 
-            //.transform(new GlideCircleTransformation(MainActivity.this, 12,
+            //.transform(new GlideCircleTransformation2(MainActivity.this, 12,
             //    getResources().getColor(android.R.color.black)))
-            //.transform(new RoundedCornersTransformation(MainActivity.this, 20, 20))
+            //.transform(new RoundedCornersTransformation2(MainActivity.this, 20, 20))
             .centerCrop(Boolean.TRUE).into(imageView);
         dialog.show();
       }
@@ -324,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
-            .transform(new GlideCircleTransformation(MainActivity.this, 12,
+            .transform(new GlideCircleTransformation2(MainActivity.this, 12,
                 getResources().getColor(android.R.color.black)))
             .into(imageView);
         dialog.show();

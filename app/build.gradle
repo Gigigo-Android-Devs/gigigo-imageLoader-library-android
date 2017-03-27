@@ -37,11 +37,11 @@ dependencies {
   compile rootProject.ext.libraries.androidSupportDesign
   compile rootProject.ext.modules.imageloaderGlide
   compile rootProject.ext.modules.imageloaderPicasso
-  compile rootProject.ext.modules.imageloaderGlideBlur
-  compile rootProject.ext.modules.imageloaderGlideBlurTransformations
+ // compile rootProject.ext.modules.imageloaderGlideBlur
+ compile rootProject.ext.modules.imageloaderGlideTransformations
 
 
 
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
+  //compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
 }

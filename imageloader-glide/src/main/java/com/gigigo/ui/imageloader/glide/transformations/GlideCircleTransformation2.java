@@ -13,17 +13,17 @@ import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 
-public class GlideCircleTransformation implements Transformation<Bitmap> {
+public class GlideCircleTransformation2 implements Transformation<Bitmap> {
 
   private final BitmapPool pool;
   private final float dimenBorder;
   private final int color;
 
-  public GlideCircleTransformation(Context context, float dimenBorder, int color) {
+  public GlideCircleTransformation2(Context context, float dimenBorder, int color) {
     this(Glide.get(context).getBitmapPool(), dimenBorder, color);
   }
 
-  public GlideCircleTransformation(BitmapPool pool, float dimenBorder, int color) {
+  public GlideCircleTransformation2(BitmapPool pool, float dimenBorder, int color) {
     this.pool = pool;
     this.dimenBorder = dimenBorder;
     this.color = color;
@@ -95,7 +95,7 @@ public class GlideCircleTransformation implements Transformation<Bitmap> {
   }
 
   @Override public String getId() {
-    return "GlideCircleTransformation";
+    return "GlideCircleTransformation2";
   }
 
   @Override

@@ -51,6 +51,18 @@ imageLoader.load(url)
             .into(imageView);
 ```
 
+
+And load Videos as Gif Images (Needs to handle storage permissions)
+
+```
+  String filePath = "/storage/emulated/0/Pictures/Best20SOJA.mp4";
+    Glide
+        .with( context )
+        .load( Uri.fromFile( new File( filePath ) ) )
+        .into( imageView );
+
+```
+
 You can use this library importing the glide or picasso dependency in your build.gradle file
 
 ```gradle
@@ -62,7 +74,7 @@ compile 'com.github.gigigo-Android-Devs:gigigo-imageLoader-library-android:image
 
 ```
 ### TODO
-- 
+-
 
 License
 ----

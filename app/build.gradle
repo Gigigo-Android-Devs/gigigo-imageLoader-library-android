@@ -5,7 +5,7 @@ android {
   buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
   defaultConfig {
-    applicationId "com.gigigo.ui.imageloader_demoapp"
+    applicationId "com.gigigo.imageloader_demoapp"
     minSdkVersion rootProject.ext.androidMinSdkVersion
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
 
@@ -29,6 +29,7 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7
     incremental false //this is for do Clean pre any Build, do it 4 prevent Dagger no-true-errors
   }
+  buildToolsVersion '25.0.0'
 }
 
 dependencies {
@@ -36,6 +37,11 @@ dependencies {
   compile rootProject.ext.libraries.androidSupportDesign
   compile rootProject.ext.modules.imageloaderGlide
   compile rootProject.ext.modules.imageloaderPicasso
-  compile rootProject.ext.modules.imageloaderGlideTransformationsBlur
-  compile rootProject.ext.modules.imageloaderGlideTransformations
+ // compile rootProject.ext.modules.imageloaderGlideBlur
+ compile rootProject.ext.modules.imageloaderGlideTransformations
+
+
+
+  //compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
 }

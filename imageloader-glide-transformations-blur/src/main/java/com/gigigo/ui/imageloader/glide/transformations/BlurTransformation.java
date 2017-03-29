@@ -1,4 +1,4 @@
-package com.gigigo.ui.imageloader.glide.transformations;
+package com.gigigo.ui.transformations.transformations;
 
 import android.content.Context;
 import android.graphics.Bitmap;

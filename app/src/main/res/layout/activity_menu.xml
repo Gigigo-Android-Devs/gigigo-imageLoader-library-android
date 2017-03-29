@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +11,10 @@
 
   <ScrollView
       android:id="@+id/scroll"
-      android:layout_width="match_parent"
+      android:layout_width="368dp"
       android:layout_height="wrap_content"
+      tools:layout_editor_absoluteX="8dp"
+      tools:layout_editor_absoluteY="0dp"
       >
 
     <LinearLayout
@@ -26,6 +29,19 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:text="Test"
+          />
+
+      <Button
+          android:id="@+id/button_gif_into"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Gif into"
+          />
+      <Button
+          android:id="@+id/button_gif_into_callback"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Gif into callback"
           />
 
       <Button
@@ -93,7 +109,6 @@
           />
 
 
-
       <Button
           android:id="@+id/button_glide_error"
           android:layout_width="match_parent"
@@ -157,7 +172,6 @@
           android:text="Picasso Rotate 90º"
 
           />
-
 
 
       <Button

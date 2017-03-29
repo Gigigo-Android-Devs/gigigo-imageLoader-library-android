@@ -31,13 +31,11 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private ImageLoaderCallback imageLoaderCallback;
 
-  private ArrayList <Transformation> bitmapTransformation;
+  private ArrayList<Transformation> bitmapTransformation;
 
   private boolean centerCrop;
 
   private boolean fitCenter;
-
-
 
   private ImageView imageview;
 
@@ -80,10 +78,9 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   @Override public ImageLoaderBuilder transform(Object... bitmapTransformations) {
     bitmapTransformation = new ArrayList<>();
     for (int i = 0; i < bitmapTransformations.length; i++) {
-      if (bitmapTransformations[i] instanceof  Transformation){
-        bitmapTransformation.add((Transformation) bitmapTransformations [i]);
+      if (bitmapTransformations[i] instanceof Transformation) {
+        bitmapTransformation.add((Transformation) bitmapTransformations[i]);
       }
-
     }
     return this;
   }
@@ -117,46 +114,40 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   }
 
   @Override public void into(ImageView imageView) {
-    this.imageview = imageView;
-    RequestCreator requestCreator = build();
-    requestCreator.into(imageView);
+    into(null, imageView);
   }
 
   @Override public void into(final ImageLoaderCallback imageLoaderCallback) {
-    RequestCreator requestCreator = build();
-    requestCreator.into(new Target() {
-
-          @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            imageLoaderCallback.onSuccess(bitmap);
-          }
-
-          @Override public void onBitmapFailed(Drawable errorDrawable) {
-            imageLoaderCallback.onError(errorDrawable);
-          }
-
-          @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
-            imageLoaderCallback.onLoading();
-          }
-        });
+    into(imageLoaderCallback, null);
   }
 
-  @Override public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
-    RequestCreator requestCreator = build();
-    requestCreator.into(new Target() {
+  @Override
+  public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
 
-      @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        imageView.setImageBitmap(bitmap);
-        imageLoaderCallback.onSuccess(bitmap);
-      }
+    if (imageView != null) {
+      this.imageview = imageView;
+      RequestCreator requestCreator = build();
+      requestCreator.into(imageView);
+    } else {
+      RequestCreator requestCreator = build();
+      requestCreator.into(new Target() {
 
-      @Override public void onBitmapFailed(Drawable errorDrawable) {
-        imageLoaderCallback.onError(errorDrawable);
-      }
+        @Override public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+          if (imageView != null) {
+            imageView.setImageBitmap(bitmap);
+          }
+          imageLoaderCallback.onSuccess(bitmap);
+        }
 
-      @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
-        imageLoaderCallback.onLoading();
-      }
-    });
+        @Override public void onBitmapFailed(Drawable errorDrawable) {
+          imageLoaderCallback.onError(errorDrawable);
+        }
+
+        @Override public void onPrepareLoad(Drawable placeHolderDrawable) {
+          imageLoaderCallback.onLoading();
+        }
+      });
+    }
   }
 
   private RequestCreator build() {
@@ -169,7 +160,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     } else {
       return null;
     }
-
 
     if (placeholder != null) {
       requestCreator = requestCreator.placeholder(placeholder);
@@ -184,20 +174,19 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     }
 
     if (bitmapTransformation != null) {
-      for (int i = 0; i < bitmapTransformation.size(); i++){
+      for (int i = 0; i < bitmapTransformation.size(); i++) {
         requestCreator = requestCreator.transform(bitmapTransformation.get(i));
       }
-
     }
 
-    if (centerCrop){
+    if (centerCrop) {
       requestCreator = requestCreator.centerCrop();
     }
 
-    if (fitCenter){
+    if (fitCenter) {
       requestCreator = requestCreator.centerInside();
     }
-    if (degrees > 0){
+    if (degrees > 0) {
       requestCreator = requestCreator.rotate(degrees);
     }
 

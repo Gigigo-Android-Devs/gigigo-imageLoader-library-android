@@ -1,2 +1,2 @@
-include ':app', ':imageloader', ':imageloader-glide', ':imageloader-picasso',
-     ':imageloader-glide-transformations'//':imageloader-glide-blur',
+include  ':imageloader', ':imageloader-glide', ':imageloader-picasso',
+     ':imageloader-glide-transformations'//,':app'//':imageloader-glide-blur',

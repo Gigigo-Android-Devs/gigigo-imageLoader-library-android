@@ -1,10 +1,8 @@
 package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
@@ -13,7 +11,6 @@ import com.bumptech.glide.GifTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.Transformation;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -135,7 +132,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
     this.imageview = imageView;
     DrawableRequestBuilder drawableRequestBuilder =
-        build().diskCacheStrategy(DiskCacheStrategy.NONE);
+        build();
 
     drawableRequestBuilder.into(new SimpleTarget<Object>() {
 

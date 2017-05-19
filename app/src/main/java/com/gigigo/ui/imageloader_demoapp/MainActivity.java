@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
@@ -36,7 +38,6 @@ import jp.wasabeef.glide.transformations.gpu.SketchFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.SwirlFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 import jp.wasabeef.glide.transformations.gpu.VignetteFilterTransformation;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
   private Button btnGLideGPUBrightness;
   private Button btnGLideGPUKuwahara;
   private Button btnGLideGPUVignette;
+  private Button btnGlideThumbnail;
 
   private Button btnGifInto;
   private Button btnGifIntoCallback;
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     btnTest = (Button) findViewById(R.id.button_test);
 
 
+
+    btnGlideThumbnail = (Button) findViewById(R.id.button_thumbnail);
     btnGifInto = (Button) findViewById(R.id.button_gif_into);
     btnGifIntoCallback = (Button) findViewById(R.id.button_gif_into_callback);
 
@@ -142,33 +146,36 @@ public class MainActivity extends AppCompatActivity {
 
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        setGlideImageLoader();
+        DrawableRequestBuilder<String> thumbnailRequest = Glide.with(MainActivity.this)
+            .load("https://dummyimage.com/200x200/333/fff.png&text=cats");
 
-        //chamo ahora aplicar la misma tactica en el resto de intos, si es un gif necesitamos el imageview
-        //    ya q glide necesita hacer sus historias internamente para reproducir la animation gif
-
-        //si la imagen es gif , no hay transformacion
-        //puede cargar gif o imagen estandar
-
-        String url = DataGenerator.generateRandomImageUrl();
-        //"http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
-        //gif enormico--->"https://upload-assets.vice.com/files/2016/07/06/1467830836GOT_ep_3_A_girl_has_no_name.gif";
-        imageLoader.load(url)
-            .placeholder(R.drawable.ic_loading)
-            .transform(new KuwaharaFilterTransformation(MainActivity.this, 25),
-                new SepiaFilterTransformation(MainActivity.this),
-                new CircleTransformation(MainActivity.this, 12,
-                    getResources().getColor(android.R.color.black)))
-
+       Glide.with(MainActivity.this).load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
+            //.placeholder(R.drawable.ic_loading)
+            .thumbnail(thumbnailRequest)
            .into(imageView);
 
         dialog.show();
       }
     });
 
-    btnGifInto.setOnClickListener(new View.OnClickListener() {
+    btnGlideThumbnail.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
+
+        DrawableRequestBuilder<String> thumbnailRequest = imageLoader.getThumbnail(MainActivity.this, "https://dummyimage.com/200x200/333/fff.png&text=cats");
+
+        imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
+            //.placeholder(R.drawable.ic_loading)
+            .thumbnail(thumbnailRequest)
+            .into(imageView);
+
+        dialog.show();
+      }
+    });
+
+    btnGifInto.setOnClickListener(new View.OnClickListener() {
+
+      @Override public void onClick(View v) {
         String url = "http://68.media.tumblr.com/5721ca911597778e6f22c3d401851b20/tumblr_on7vkip12r1s9y3qio3_400.gif";
         imageLoader.load(url)
             .placeholder(R.drawable.ic_loading)
@@ -344,7 +351,6 @@ public class MainActivity extends AppCompatActivity {
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.errorimage)
             .sizeMultiplier(0.3f)
-
             .into(imageView);
         dialog.show();
       }
@@ -788,7 +794,7 @@ public class MainActivity extends AppCompatActivity {
         // Add action buttons
         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-
+              imageView.setImageResource(android.R.color.transparent);
           }
         });
     return builder.create();

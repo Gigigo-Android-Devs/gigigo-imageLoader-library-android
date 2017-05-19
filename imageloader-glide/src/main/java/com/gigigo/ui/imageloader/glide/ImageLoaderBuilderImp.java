@@ -1,10 +1,8 @@
 package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
@@ -40,6 +38,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private float degrees;
 
   private float sizeMultiplier;
+
+  private DrawableRequestBuilder<String> thumb;
 
   private ImageLoaderCallback imageLoaderCallback;
 
@@ -114,6 +114,11 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   @Override public ImageLoaderBuilder animate(Boolean animate) {
     this.animate = animate;
+    return this;
+  }
+
+  @Override public ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb) {
+    this.thumb = thumb;
     return this;
   }
 
@@ -230,6 +235,9 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     if (sizeMultiplier > 0) {
       drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
     }
+    if (thumb != null){
+        drawableRequestBuilder = drawableRequestBuilder.thumbnail(thumb);
+    }
 
     return drawableRequestBuilder;
   }
@@ -260,4 +268,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
     sizeMultiplier = 0;
   }
+
+
 }

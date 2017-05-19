@@ -2,6 +2,7 @@ package com.gigigo.ui.imageloader;
 
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import com.bumptech.glide.DrawableRequestBuilder;
 
 public interface ImageLoaderBuilder {
 
@@ -36,4 +37,6 @@ public interface ImageLoaderBuilder {
   ImageLoaderBuilder sizeMultiplier(float sizeMultiplier);
 
   void clearPreviousData();
+
+  ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb);
 }

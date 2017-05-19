@@ -122,6 +122,13 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
+  @Override public ImageLoaderBuilder thumbnail2(String s) {
+    DrawableRequestBuilder<String> thumbRequest = Glide.with(context)
+        .load(s);
+    this.thumb = thumbRequest;
+    return this;
+  }
+
   @Override public ImageLoaderBuilder sizeMultiplier(float sizeMultiplier) {
     this.sizeMultiplier = sizeMultiplier;
     return this;

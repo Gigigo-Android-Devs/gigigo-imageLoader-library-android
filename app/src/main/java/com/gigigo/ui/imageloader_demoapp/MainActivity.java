@@ -146,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+
+        Snackbar.make(btnGlideCallback, "Thumbnail from Glide-Lib", Snackbar.LENGTH_SHORT).show();
+
         DrawableRequestBuilder<String> thumbnailRequest = Glide.with(MainActivity.this)
             .load("https://dummyimage.com/200x200/333/fff.png&text=cats");
 
@@ -162,11 +165,11 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         setGlideImageLoader();
 
-        DrawableRequestBuilder<String> thumbnailRequest = imageLoader.getThumbnail(MainActivity.this, "https://dummyimage.com/200x200/333/fff.png&text=cats");
+/*        DrawableRequestBuilder<String> thumbnailRequest = imageLoader.getThumbnail(MainActivity.this, "https://dummyimage.com/200x200/333/fff.png&text=cats");*/
 
         imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
             //.placeholder(R.drawable.ic_loading)
-            .thumbnail(thumbnailRequest)
+            .thumbnail2("https://dummyimage.com/200x200/333/fff.png&text=cats")
             .into(imageView);
 
         dialog.show();

@@ -12,6 +12,8 @@ public interface ImageLoaderBuilder {
 
   void into(ImageLoaderCallback imageLoaderCallback, ImageView imageView);
 
+  void clearPreviousData();
+
   ImageLoaderBuilder placeholder(int placeholder);
 
   ImageLoaderBuilder placeholder(Drawable placeholder);
@@ -24,8 +26,6 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder transform(Object... bitmapTransformation);
 
-
-
   ImageLoaderBuilder centerCrop(Boolean centerCrop);
 
   ImageLoaderBuilder fitCenter(Boolean fitCenter);
@@ -36,7 +36,7 @@ public interface ImageLoaderBuilder {
 
   ImageLoaderBuilder sizeMultiplier(float sizeMultiplier);
 
-  void clearPreviousData();
-
   ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb);
+
+  ImageLoaderBuilder thumbnail2(String s);
 }

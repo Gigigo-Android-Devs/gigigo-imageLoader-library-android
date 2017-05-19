@@ -1,8 +1,6 @@
 package com.gigigo.ui.imageloader.picasso;
 
-import android.app.Activity;
 import android.content.Context;
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderBuilder;
 
@@ -25,7 +23,4 @@ public class PicassoImageLoaderImp extends ImageLoaderBuilderImp implements Imag
     return this;
   }
 
-  @Override public DrawableRequestBuilder<String> getThumbnail(Activity a, String s) {
-    return null;
-  }
 }

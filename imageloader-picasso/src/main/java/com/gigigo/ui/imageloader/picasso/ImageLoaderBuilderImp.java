@@ -220,4 +220,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   @Override public ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb) {
     return null;
   }
+
+  @Override public ImageLoaderBuilder thumbnail2(String s) {
+    return null;
+  }
 }

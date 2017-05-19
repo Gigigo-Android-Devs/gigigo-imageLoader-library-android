@@ -164,9 +164,6 @@ public class MainActivity extends AppCompatActivity {
     btnGlideThumbnail.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
-
-/*        DrawableRequestBuilder<String> thumbnailRequest = imageLoader.getThumbnail(MainActivity.this, "https://dummyimage.com/200x200/333/fff.png&text=cats");*/
-
         imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
             //.placeholder(R.drawable.ic_loading)
             .thumbnail2("https://dummyimage.com/200x200/333/fff.png&text=cats")

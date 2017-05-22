@@ -10,12 +10,11 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.Glide;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.gigigo.ui.imageloader.glide.GlideImageLoaderImp;
@@ -143,30 +142,28 @@ public class MainActivity extends AppCompatActivity {
     //endregion
 
     final Dialog dialog = onCreateDialog(view);
+    final byte[] imageByteArray = Base64.decode("/9j/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAeAB4DASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABQYEB//EACUQAAIBAwMEAwEBAAAAAAAAAAECAwQRIQAFMQYSEyJBUXEVYf/EABcBAAMBAAAAAAAAAAAAAAAAAAACAwT/xAAeEQACAgICAwAAAAAAAAAAAAAAAQIRAyExQRNR8P/aAAwDAQACEQMRAD8AFrKl2qPKPd2k8h7hkY0ZUtJPUPIgd5l5a9gDqj6f2ql3ekZqmueGRGCdjIBzxY30tU9I0tDRu8Us1RL3KSgAN7mx4GppPkZV2RG0UdQtTHLEW9hwpsTjSS188DlTNItr2APF+dW69M7TBLGsImRgoYqHNvj7z86kuptsqIt7lRfGqlQwJbJ/bfOhp9jafA//AFF2OnkjjhEryDuXvayi3N7aLn643RmHhip4wEsLAnN+c41j3ycTbh4gCPAoFz9nWba46WqqytUJEh7XZvGQWwpOL45GiNt0jThwLI9/ULL1luUpLssALYACH1xbGf8Ab51okaOuWOpq387sgHc9hx+ag6+eSKo7IpHVbXFsa6F0/OlTstPIsQT1sQPsHJ0Pasnlh45uHo//2Q==", Base64.DEFAULT);
 
     btnTest.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
-        Snackbar.make(btnGlideCallback, "Thumbnail from Glide-Lib", Snackbar.LENGTH_SHORT).show();
-
-        DrawableRequestBuilder<String> thumbnailRequest = Glide.with(MainActivity.this)
-            .load("https://dummyimage.com/200x200/333/fff.png&text=cats");
-
-       Glide.with(MainActivity.this).load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
+        setGlideImageLoader();
+        imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
             //.placeholder(R.drawable.ic_loading)
-            .thumbnail(thumbnailRequest)
-           .into(imageView);
+            .thumbnailByte(imageByteArray)
+            .into(imageView);
 
         dialog.show();
       }
     });
+
 
     btnGlideThumbnail.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         setGlideImageLoader();
         imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
             //.placeholder(R.drawable.ic_loading)
-            .thumbnail2("https://dummyimage.com/200x200/333/fff.png&text=cats")
+            .thumbnail("https://dummyimage.com/200x200/333/fff.png&text=cats")
             .into(imageView);
 
         dialog.show();

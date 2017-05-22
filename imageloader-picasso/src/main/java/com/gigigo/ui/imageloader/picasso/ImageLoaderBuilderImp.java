@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.widget.ImageView;
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.gigigo.ui.imageloader.ImageLoaderBuilder;
 import com.gigigo.ui.imageloader.ImageLoaderCallback;
 import com.squareup.picasso.Picasso;
@@ -217,11 +216,12 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     degrees = 0;
   }
 
-  @Override public ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb) {
+
+  @Override public ImageLoaderBuilder thumbnail(String s) {
     return null;
   }
 
-  @Override public ImageLoaderBuilder thumbnail2(String s) {
+  @Override public ImageLoaderBuilder thumbnailByte(byte[] s) {
     return null;
   }
 }

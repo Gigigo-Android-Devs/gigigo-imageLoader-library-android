@@ -41,6 +41,8 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
   private DrawableRequestBuilder<String> thumb;
 
+  DrawableTypeRequest<byte[]> thumbByte;
+
   private ImageLoaderCallback imageLoaderCallback;
 
   private ArrayList<Transformation> bitmapTransformation;
@@ -52,7 +54,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private boolean fitCenter;
 
   private boolean animate;
-
 
   GifRequestBuilder mGifRequest = null;
 
@@ -117,15 +118,17 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     return this;
   }
 
-  @Override public ImageLoaderBuilder thumbnail(DrawableRequestBuilder<String> thumb) {
-    this.thumb = thumb;
+  @Override public ImageLoaderBuilder thumbnail(String s) {
+    DrawableRequestBuilder<String> thumbRequest = Glide.with(context).load(s);
+    this.thumb = thumbRequest;
     return this;
   }
 
-  @Override public ImageLoaderBuilder thumbnail2(String s) {
-    DrawableRequestBuilder<String> thumbRequest = Glide.with(context)
-        .load(s);
-    this.thumb = thumbRequest;
+  @Override public ImageLoaderBuilder thumbnailByte(byte[] s) {
+    DrawableTypeRequest<byte[]> drawableTypeRequest = Glide.with(context).load(s);
+
+    this.thumbByte = drawableTypeRequest;
+
     return this;
   }
 
@@ -135,14 +138,12 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   }
 
   @Override public void into(ImageView imageView) {
-    into(null,imageView);
-
+    into(null, imageView);
   }
 
   @Override public void into(ImageLoaderCallback imageLoaderCallback) {
-    into(imageLoaderCallback,null);
+    into(imageLoaderCallback, null);
   }
-
 
   public void into(final ImageLoaderCallback imageLoaderCallback, final ImageView imageView) {
     this.imageview = imageView;
@@ -163,7 +164,6 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
         if (imageLoaderCallback != null) {
           imageLoaderCallback.onError(errorDrawable);
         }
-
       }
 
       @Override
@@ -242,8 +242,12 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     if (sizeMultiplier > 0) {
       drawableRequestBuilder = drawableRequestBuilder.sizeMultiplier(sizeMultiplier);
     }
-    if (thumb != null){
-        drawableRequestBuilder = drawableRequestBuilder.thumbnail(thumb);
+    if (thumb != null) {
+      drawableRequestBuilder = drawableRequestBuilder.thumbnail(thumb);
+    }
+
+    if (thumbByte != null) {
+      drawableRequestBuilder = drawableRequestBuilder.thumbnail(thumbByte);
     }
 
     return drawableRequestBuilder;
@@ -274,7 +278,9 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
     degrees = 0;
 
     sizeMultiplier = 0;
+
+    thumb = null;
+
+    thumbByte = null;
   }
-
-
 }

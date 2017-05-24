@@ -32,7 +32,7 @@ android {
 dependencies {
   compile rootProject.ext.libraries.androidSupportV7
   compile rootProject.ext.libraries.glide
-  compile rootProject.ext.libraries.glideOkHttpIntegration
+  //compile rootProject.ext.libraries.glideOkHttpIntegration
 
   compile rootProject.ext.modules.imageloader
 }

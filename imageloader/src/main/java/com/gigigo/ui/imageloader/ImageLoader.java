@@ -9,4 +9,9 @@ public interface ImageLoader {
 
   ImageLoaderBuilder load(String url);
 
+
+  ImageLoaderBuilder pauseRequests();
+
+  ImageLoaderBuilder resumeRequests();
+
 }

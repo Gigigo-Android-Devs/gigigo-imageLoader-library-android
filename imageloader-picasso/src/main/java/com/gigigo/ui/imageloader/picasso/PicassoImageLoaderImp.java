@@ -23,4 +23,11 @@ public class PicassoImageLoaderImp extends ImageLoaderBuilderImp implements Imag
     return this;
   }
 
+  @Override public ImageLoaderBuilder pauseRequests() {
+    return null;
+  }
+
+  @Override public ImageLoaderBuilder resumeRequests() {
+    return null;
+  }
 }

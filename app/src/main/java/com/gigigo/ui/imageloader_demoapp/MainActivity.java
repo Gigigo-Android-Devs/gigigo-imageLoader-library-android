@@ -768,7 +768,6 @@ public class MainActivity extends AppCompatActivity {
         String url = DataGenerator.generateRandomImageUrl();
 
         Snackbar.make(btnGlideMask, url, Snackbar.LENGTH_SHORT).show();
-
         imageLoader.load(url)
             .transform(new MaskTransformation(MainActivity.this, R.drawable.ic_loading))
             .placeholder(R.drawable.ic_loading)
@@ -789,9 +788,19 @@ public class MainActivity extends AppCompatActivity {
     // Pass null as the parent view because its going in the dialog layout
     builder.setView(view)
         // Add action buttons
+        .setNeutralButton("Pause", new DialogInterface.OnClickListener(){
+          @Override public void onClick(DialogInterface dialog, int which) {
+            imageLoader.pauseRequests();
+          }
+        })
+        .setPositiveButton("resume", new DialogInterface.OnClickListener(){
+          @Override public void onClick(DialogInterface dialog, int which) {
+           imageLoader.resumeRequests();
+          }
+        })
         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-              imageView.setImageResource(android.R.color.transparent);
+            imageView.setImageResource(android.R.color.transparent);
           }
         });
     return builder.create();

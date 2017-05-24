@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
+
   private final Context context;
   private final RequestManager glide;
   boolean isGifImage = false;
@@ -54,6 +55,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
   private boolean fitCenter;
 
   private boolean animate;
+
 
   GifRequestBuilder mGifRequest = null;
 
@@ -131,6 +133,7 @@ class ImageLoaderBuilderImp implements ImageLoaderBuilder {
 
     return this;
   }
+
 
   @Override public ImageLoaderBuilder sizeMultiplier(float sizeMultiplier) {
     this.sizeMultiplier = sizeMultiplier;

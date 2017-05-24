@@ -39,4 +39,6 @@ public interface ImageLoaderBuilder {
   ImageLoaderBuilder thumbnail(String s);
 
   ImageLoaderBuilder thumbnailByte(byte[] s);
+
+
 }

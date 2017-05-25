@@ -1,6 +1,7 @@
 package com.gigigo.ui.imageloader.picasso;
 
 import android.content.Context;
+import android.view.View;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderBuilder;
 import com.squareup.picasso.Picasso;
@@ -24,13 +25,17 @@ public class PicassoImageLoaderImp extends ImageLoaderBuilderImp implements Imag
     return this;
   }
 
-  @Override public ImageLoaderBuilder pauseRequests() {
+  @Override public void pauseRequests() {
     Picasso.with(context).pauseTag(context);
-    return this;
+
   }
 
-  @Override public ImageLoaderBuilder resumeRequests() {
+  @Override public void resumeRequests() {
     Picasso.with(context).resumeTag(context);
-    return null;
+
+  }
+
+  @Override public void clear(View view) {
+
   }
 }

@@ -1,5 +1,7 @@
 package com.gigigo.ui.imageloader;
 
+import android.view.View;
+
 /**
  * Created by rui.alonso on 20/9/16.
  */
@@ -10,8 +12,10 @@ public interface ImageLoader {
   ImageLoaderBuilder load(String url);
 
 
-  ImageLoaderBuilder pauseRequests();
+  void pauseRequests();
 
-  ImageLoaderBuilder resumeRequests();
+  void resumeRequests();
+
+  void clear(View view);
 
 }

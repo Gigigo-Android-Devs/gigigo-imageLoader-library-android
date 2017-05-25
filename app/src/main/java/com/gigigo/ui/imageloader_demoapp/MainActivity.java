@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
 
         setGlideImageLoader();
+        imageLoader.clear(imageView);
         imageLoader.load("https://dummyimage.com/2000x2000/333/fff.png&text=cats")
             //.placeholder(R.drawable.ic_loading)
             .thumbnailByte(imageByteArray)

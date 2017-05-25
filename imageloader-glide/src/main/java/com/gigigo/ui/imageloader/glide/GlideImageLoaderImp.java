@@ -1,6 +1,7 @@
 package com.gigigo.ui.imageloader.glide;
 
 import android.content.Context;
+import android.view.View;
 import com.bumptech.glide.Glide;
 import com.gigigo.ui.imageloader.ImageLoader;
 import com.gigigo.ui.imageloader.ImageLoaderBuilder;
@@ -27,13 +28,15 @@ public class GlideImageLoaderImp extends ImageLoaderBuilderImp implements ImageL
     return this;
   }
 
-  @Override public ImageLoaderBuilder pauseRequests() {
-    Glide.with(context).pauseRequests();
-    return this;
+  @Override public void pauseRequests() {
+    Glide.with(context).pauseRequestsRecursive();
   }
 
-  @Override public ImageLoaderBuilder resumeRequests() {
+  @Override public void resumeRequests() {
     Glide.with(context).resumeRequests();
-    return this;
+  }
+
+  @Override public void clear(View view){
+    Glide.clear(view);
   }
 }
